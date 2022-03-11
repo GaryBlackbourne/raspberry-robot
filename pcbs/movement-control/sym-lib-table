@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "motor-driver")(type "Legacy")(uri "/home/geri/dev/onlab/pcbs/kicad-libs/ul_BD6220F-E2/KiCAD/2022-03-11_12-16-55/2022-03-11_12-16-55.lib")(options "")(descr ""))
+)
