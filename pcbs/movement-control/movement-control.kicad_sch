@@ -2443,6 +2443,22 @@
     (pin "1" (uuid ca709902-04c9-4a62-987c-ad2be345b2b5))
   )
 
+  (symbol (lib_id "power:+3V3") (at 276.225 21.59 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid 7764b1a7-b9be-4d0c-ae2b-ec64c2b9ca7c)
+    (property "Reference" "#PWR?" (id 0) (at 276.225 25.4 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3V3" (id 1) (at 276.225 16.51 0))
+    (property "Footprint" "" (id 2) (at 276.225 21.59 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 276.225 21.59 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 455bb326-5646-4d14-ba77-60ba5f942a62))
+  )
+
   (symbol (lib_id "power:GND") (at 267.97 29.21 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 7d3d56a8-0bd7-4b2b-b999-79d2a13d2ba0)
@@ -2738,6 +2754,41 @@
     )
     (pin "1" (uuid 122a45b7-7596-4948-9db7-ec4230d765f8))
     (pin "2" (uuid 5e8c0c73-3108-474c-8be1-a5dcc720804e))
+  )
+
+  (symbol (lib_id "power:GND") (at 276.225 29.21 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid bde06726-cef4-4003-a1b5-ea6b7a6034a0)
+    (property "Reference" "#PWR?" (id 0) (at 276.225 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (id 1) (at 276.225 34.29 0))
+    (property "Footprint" "" (id 2) (at 276.225 29.21 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 276.225 29.21 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 9fe4ec8e-d675-4b57-9038-b2ad5a9800f8))
+  )
+
+  (symbol (lib_id "Device:C") (at 276.225 25.4 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid c0eb397c-0f0a-48f2-a4a7-a39c38857565)
+    (property "Reference" "C?" (id 0) (at 277.495 22.86 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "100n" (id 1) (at 276.225 27.94 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "" (id 2) (at 277.1902 29.21 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (id 3) (at 276.225 25.4 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 791f08b2-190f-425b-84e1-3aec99a46611))
+    (pin "2" (uuid 206ace7c-6dae-4c64-b30f-758119e57387))
   )
 
   (symbol (lib_id "power:+3V3") (at 43.18 161.925 0) (unit 1)
@@ -3158,6 +3209,9 @@
     (path "/75026107-99b0-415f-a486-861614c01efa"
       (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
+    (path "/7764b1a7-b9be-4d0c-ae2b-ec64c2b9ca7c"
+      (reference "#PWR?") (unit 1) (value "+3V3") (footprint "")
+    )
     (path "/7d3d56a8-0bd7-4b2b-b999-79d2a13d2ba0"
       (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
@@ -3177,6 +3231,9 @@
       (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
     (path "/ab45da5a-7864-47b0-b00b-38121fad767a"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/bde06726-cef4-4003-a1b5-ea6b7a6034a0"
       (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
     (path "/c371bf33-2a03-489b-ab9a-a0dec40aca52"
@@ -3237,6 +3294,9 @@
       (reference "C?") (unit 1) (value "100n") (footprint "")
     )
     (path "/b3ff7e4d-d66b-4d34-a49a-219b4999ec0b"
+      (reference "C?") (unit 1) (value "100n") (footprint "")
+    )
+    (path "/c0eb397c-0f0a-48f2-a4a7-a39c38857565"
       (reference "C?") (unit 1) (value "100n") (footprint "")
     )
     (path "/c8cf6ff3-a8f2-401b-a782-a36d18e3e6a7"
