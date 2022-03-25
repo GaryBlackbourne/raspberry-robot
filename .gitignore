@@ -6,6 +6,7 @@ notes
 ## kicad temporary files and backup saves
 pcbs/movement-control/movement-control-backups
 pcbs/power-supply-unit/power-supply-unit-backups
+pcbs/*/fp-info-cache
 
 ## kicad netlist files
 pcbs/movement-control/*.net
