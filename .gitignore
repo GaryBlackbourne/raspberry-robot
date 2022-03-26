@@ -7,6 +7,7 @@ notes
 pcbs/movement-control/movement-control-backups
 pcbs/power-supply-unit/power-supply-unit-backups
 pcbs/*/fp-info-cache
+pcbs/*/gerbers
 
 ## kicad netlist files
 pcbs/movement-control/*.net
