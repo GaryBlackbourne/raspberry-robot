@@ -2834,7 +2834,7 @@
     (property "Value" "BD6220F-E2" (id 1) (at 64.77 187.325 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "SOP8_ROM" (id 2) (at 44.45 167.005 0)
+    (property "Footprint" "" (id 2) (at 44.45 167.005 0)
       (effects (font (size 1.524 1.524)) hide)
     )
     (property "Datasheet" "" (id 3) (at 38.1 175.895 0)
@@ -3707,7 +3707,7 @@
     (property "Reference" "SW2" (id 0) (at 243.967 101.854 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "SW_RST" (id 1) (at 243.967 108.204 90)
+    (property "Value" "" (id 1) (at 243.967 108.204 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "" (id 2) (at 237.617 104.394 0)
@@ -4132,7 +4132,7 @@
     (property "Value" "BD6220F-E2" (id 1) (at 64.77 153.035 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "SOP8_ROM" (id 2) (at 44.45 132.715 0)
+    (property "Footprint" "" (id 2) (at 44.45 132.715 0)
       (effects (font (size 1.524 1.524)) hide)
     )
     (property "Datasheet" "" (id 3) (at 38.1 141.605 0)
@@ -4664,31 +4664,31 @@
       (reference "A1") (unit 1) (value "TMC2208_module") (footprint "Module:Pololu_Breakout-16_15.2x20.3mm")
     )
     (path "/108c26ac-7da2-4fb0-814e-cf4d984114ed"
-      (reference "C1") (unit 1) (value "100n") (footprint "")
+      (reference "C1") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/c8cf6ff3-a8f2-401b-a782-a36d18e3e6a7"
       (reference "C2") (unit 1) (value "47u") (footprint "")
     )
     (path "/b3ff7e4d-d66b-4d34-a49a-219b4999ec0b"
-      (reference "C3") (unit 1) (value "100n") (footprint "")
+      (reference "C3") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/ad8fe556-7ebe-46a2-88ec-7205782093b6"
-      (reference "C4") (unit 1) (value "100n") (footprint "")
+      (reference "C4") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/e5bc6e6d-d180-4499-a93e-a4c038ffdd89"
       (reference "C5") (unit 1) (value "47u") (footprint "")
     )
     (path "/42f19d25-9971-4a95-988b-64cb9dd8fdc0"
-      (reference "C6") (unit 1) (value "100n") (footprint "")
+      (reference "C6") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/265023aa-53cd-4dd4-b761-7faa486d62b0"
-      (reference "C7") (unit 1) (value "100n") (footprint "")
+      (reference "C7") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/1b0cc1c7-2221-4c1c-ad4b-ec99c2f7e327"
-      (reference "C8") (unit 1) (value "1u") (footprint "")
+      (reference "C8") (unit 1) (value "1u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/fc0bde53-f99a-44a3-81a3-dbb81e9c5778"
-      (reference "C9") (unit 1) (value "100n") (footprint "")
+      (reference "C9") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/a57410fe-cab7-4e34-b7ad-52d6a70a6930"
       (reference "C10") (unit 1) (value "47u") (footprint "")
@@ -4697,10 +4697,10 @@
       (reference "C11") (unit 1) (value "47u") (footprint "")
     )
     (path "/c0eb397c-0f0a-48f2-a4a7-a39c38857565"
-      (reference "C12") (unit 1) (value "100n") (footprint "")
+      (reference "C12") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/7c656ff7-2526-43f7-8558-c34d84ae917b"
-      (reference "D1") (unit 1) (value "LED") (footprint "")
+      (reference "D1") (unit 1) (value "LED") (footprint "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder")
     )
     (path "/1cd616c3-06dd-4d25-9068-781ff43961db"
       (reference "J1") (unit 1) (value "Conn_01x06_Male") (footprint "")
@@ -4781,16 +4781,16 @@
       (reference "R15") (unit 1) (value "4.7k") (footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder")
     )
     (path "/fd249575-fefc-401e-8259-147497dc7ccb"
-      (reference "SW1") (unit 1) (value "SW_RST") (footprint "")
+      (reference "SW1") (unit 1) (value "SW_RST") (footprint "Button_Switch_SMD:SW_Push_1P1T_NO_6x6mm_H9.5mm")
     )
     (path "/ab2a858a-f5aa-475b-b833-babe4a38f3ae"
-      (reference "SW2") (unit 1) (value "SW_RST") (footprint "")
+      (reference "SW2") (unit 1) (value "SW_BTN") (footprint "Button_Switch_SMD:SW_Push_1P1T_NO_6x6mm_H9.5mm")
     )
     (path "/cfa0cc3f-16c9-47dc-8f68-6b658d60fd31"
-      (reference "U1") (unit 1) (value "BD6220F-E2") (footprint "SOP8_ROM")
+      (reference "U1") (unit 1) (value "BD6220F-E2") (footprint "Package_SO:SOP-8_3.9x4.9mm_P1.27mm")
     )
     (path "/28e55824-6f25-4325-ad7c-a821934d9e90"
-      (reference "U2") (unit 1) (value "BD6220F-E2") (footprint "SOP8_ROM")
+      (reference "U2") (unit 1) (value "BD6220F-E2") (footprint "Package_SO:SOP-8_3.9x4.9mm_P1.27mm")
     )
     (path "/adcbf4d0-ed9c-4c7d-b78f-3bcbe974bdcb"
       (reference "U3") (unit 1) (value "STM32F103C8Tx") (footprint "Package_QFP:LQFP-48_7x7mm_P0.5mm")
