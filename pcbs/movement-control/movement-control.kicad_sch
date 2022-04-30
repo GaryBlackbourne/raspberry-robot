@@ -2800,7 +2800,7 @@
     (property "Reference" "J1" (id 0) (at 136.525 147.32 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "Conn_01x06_Male" (id 1) (at 148.59 163.195 0)
+    (property "Value" "" (id 1) (at 151.13 163.83 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "" (id 2) (at 135.89 153.67 0)
@@ -3392,7 +3392,7 @@
     (property "Reference" "J2" (id 0) (at 137.16 167.005 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "Conn_01x06_Male" (id 1) (at 148.59 182.88 0)
+    (property "Value" "" (id 1) (at 149.86 182.88 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "" (id 2) (at 136.525 173.355 0)
@@ -3778,7 +3778,7 @@
   (symbol (lib_id "power:+6V") (at 135.89 128.27 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 9ccbfdf6-7fca-4850-a349-a9950c8e630e)
-    (property "Reference" "#PWR?" (id 0) (at 135.89 132.08 0)
+    (property "Reference" "#PWR0156" (id 0) (at 135.89 132.08 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "" (id 1) (at 135.89 123.19 0))
@@ -4557,7 +4557,7 @@
   (symbol (lib_id "power:+6V") (at 144.78 128.27 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid fad950b4-5ebf-4143-95cd-a0ab1ac5bc4c)
-    (property "Reference" "#PWR?" (id 0) (at 144.78 132.08 0)
+    (property "Reference" "#PWR0160" (id 0) (at 144.78 132.08 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "" (id 1) (at 144.78 123.19 0))
@@ -4831,6 +4831,9 @@
     (path "/a2a34543-362b-42b6-b707-1bd4455b6ef8"
       (reference "#PWR0155") (unit 1) (value "GND") (footprint "")
     )
+    (path "/9ccbfdf6-7fca-4850-a349-a9950c8e630e"
+      (reference "#PWR0156") (unit 1) (value "+6V") (footprint "")
+    )
     (path "/deb8cb37-e974-4b2b-950f-469f47de51e6"
       (reference "#PWR0157") (unit 1) (value "GND") (footprint "")
     )
@@ -4839,6 +4842,9 @@
     )
     (path "/ab45da5a-7864-47b0-b00b-38121fad767a"
       (reference "#PWR0159") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/fad950b4-5ebf-4143-95cd-a0ab1ac5bc4c"
+      (reference "#PWR0160") (unit 1) (value "+6V") (footprint "")
     )
     (path "/d78a485f-9cc1-4769-b49d-4b1c97dee49a"
       (reference "#PWR0161") (unit 1) (value "+3V3") (footprint "")
@@ -4866,12 +4872,6 @@
     )
     (path "/ffc88cb8-949d-4a08-a5bf-cc640d34783a"
       (reference "#PWR0169") (unit 1) (value "+6V") (footprint "")
-    )
-    (path "/9ccbfdf6-7fca-4850-a349-a9950c8e630e"
-      (reference "#PWR?") (unit 1) (value "+6V") (footprint "")
-    )
-    (path "/fad950b4-5ebf-4143-95cd-a0ab1ac5bc4c"
-      (reference "#PWR?") (unit 1) (value "+6V") (footprint "")
     )
     (path "/7dbb1359-f267-4d5a-b7ae-25f0e3894c63"
       (reference "A1") (unit 1) (value "TMC2208_module") (footprint "Module:Pololu_Breakout-16_15.2x20.3mm")
@@ -4916,10 +4916,10 @@
       (reference "D1") (unit 1) (value "LED") (footprint "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder")
     )
     (path "/1cd616c3-06dd-4d25-9068-781ff43961db"
-      (reference "J1") (unit 1) (value "Conn_01x06_Male") (footprint "")
+      (reference "J1") (unit 1) (value "CONN_SERVO_RIGHT") (footprint "")
     )
     (path "/5da34ef7-ba7c-4e70-a24c-f1b432b4b931"
-      (reference "J2") (unit 1) (value "Conn_01x06_Male") (footprint "")
+      (reference "J2") (unit 1) (value "CONN_SERVO_LEFT") (footprint "")
     )
     (path "/16c09044-1165-4770-b343-a0df4cb8ff11"
       (reference "J3") (unit 1) (value "SWD PIN") (footprint "")
