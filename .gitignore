@@ -16,3 +16,5 @@ pcbs/power-supply-unit/*.net
 ## datasheets
 datasheets/
 
+## autosave files
+\#auto_saved_files\#
