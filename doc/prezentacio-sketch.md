@@ -14,7 +14,7 @@
 
 ## III. A projekt:
 - egy irányítható/önjáró autó építése
-  - táp áramkör (akksikkal, BMSel, )
+  - táp áramkör (akksikkal, BMSel)
   - meghajtás vezérlő (STM32)
   - Raspberry Pi (Linux)
     - vezeték nélküli kommunikációs lehetőség
