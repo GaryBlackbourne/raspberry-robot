@@ -18,3 +18,12 @@ datasheets/
 
 ## autosave files
 \#auto_saved_files\#
+
+## Firmware 
+### outputs
+firmware/output/*
+!firmware/output/.gitkeep
+### openocd logs
+firmware/openocd_stdout.log
+### clang cache
+firmware/.cache/*

@@ -1,0 +1,83 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-DSTM32F103xB",
+      "-Iinc",
+      "-IFreeRTOS/Source/include",
+      "-I",
+      "-Wall",
+      "-ggdb",
+      "-mcpu=cortex-m3",
+      "--specs=nano.specs",
+      "-mthumb",
+      "-mfloat-abi=soft",
+      "-TSTM32F103C8TX_FLASH.ld",
+      "-Wl,-Map=output/program.map",
+      "-Wl,--gc-sections",
+      "-Wl,--start-group",
+      "-Wl,--end-group",
+      "-o",
+      "output/program.elf",
+      "src/main.c"
+    ],
+    "directory": "/home/geri/dev/onlab/firmware",
+    "file": "/home/geri/dev/onlab/firmware/src/main.c",
+    "output": "/home/geri/dev/onlab/firmware/output/program.elf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-DSTM32F103xB",
+      "-Iinc",
+      "-IFreeRTOS/Source/include",
+      "-I",
+      "-Wall",
+      "-ggdb",
+      "-mcpu=cortex-m3",
+      "--specs=nano.specs",
+      "-mthumb",
+      "-mfloat-abi=soft",
+      "-TSTM32F103C8TX_FLASH.ld",
+      "-Wl,-Map=output/program.map",
+      "-Wl,--gc-sections",
+      "-Wl,--start-group",
+      "-Wl,--end-group",
+      "-o",
+      "output/program.elf",
+      "src/startup_stm32f103c8tx.s"
+    ],
+    "directory": "/home/geri/dev/onlab/firmware",
+    "file": "/home/geri/dev/onlab/firmware/src/startup_stm32f103c8tx.s",
+    "output": "/home/geri/dev/onlab/firmware/output/program.elf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-DSTM32F103xB",
+      "-Iinc",
+      "-IFreeRTOS/Source/include",
+      "-I",
+      "-Wall",
+      "-ggdb",
+      "-mcpu=cortex-m3",
+      "--specs=nano.specs",
+      "-mthumb",
+      "-mfloat-abi=soft",
+      "-TSTM32F103C8TX_FLASH.ld",
+      "-Wl,-Map=output/program.map",
+      "-Wl,--gc-sections",
+      "-Wl,--start-group",
+      "-Wl,--end-group",
+      "-o",
+      "output/program.elf",
+      "src/system_stm32f1xx.c"
+    ],
+    "directory": "/home/geri/dev/onlab/firmware",
+    "file": "/home/geri/dev/onlab/firmware/src/system_stm32f1xx.c",
+    "output": "/home/geri/dev/onlab/firmware/output/program.elf"
+  }
+]
