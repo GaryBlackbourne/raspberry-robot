@@ -2,12 +2,10 @@
 MAKEFLAGS = --jobs=$(shell nproc) # allow multiple thread to be run when compiling
 MAKEFLAGS += --output-sync=target # buffer commands outputs
 
-#,FreeRTOS/Source/include:
 INCLUDE_DIRS = inc
 INCLUDE_FREERTOS = FreeRTOS/Source/include
 FREERTOS_SRC_DIR = FreeRTOS/Source
- # use ARM_CM4F instead of MPU version
-# FREERTOS_PORTABLE_DIR = FreeRTOS/Source/portable/GCC/<YOUR_SPECIFIC_PORT>
+FREERTOS_PORTABLE_DIR = FreeRTOS/Source/portable/GCC/ARM_CM3
 
 OUTPUT_DIR = output
 OBJECTS_DIR = $(OUTPUT_DIR)/objects
@@ -28,12 +26,12 @@ SOURCES += src/startup_stm32f103c8tx.s
 SOURCES += src/system_stm32f1xx.c				
 
 ## FreeRTOS files
-## SOURCES += $(FREERTOS_SRC_DIR)/tasks.c
-## SOURCES += $(FREERTOS_SRC_DIR)/queue.c				
-## SOURCES += $(FREERTOS_SRC_DIR)/list.c				
-## SOURCES += $(FREERTOS_SRC_DIR)/timers.c				
-## SOURCES += $(FREERTOS_SRC_DIR)/portable/MemMang/heap_1.c
-## SOURCES += $(FREERTOS_PORTABLE_DIR)/port.c			# freeRTOS port for ARM CM4F
+SOURCES += $(FREERTOS_SRC_DIR)/tasks.c
+SOURCES += $(FREERTOS_SRC_DIR)/queue.c				
+SOURCES += $(FREERTOS_SRC_DIR)/list.c				
+SOURCES += $(FREERTOS_SRC_DIR)/timers.c				
+SOURCES += $(FREERTOS_SRC_DIR)/portable/MemMang/heap_1.c
+SOURCES += $(FREERTOS_PORTABLE_DIR)/port.c			# freeRTOS port for ARM CM3
 
 # compiler (and precompiler) options:
 GCC_FLAGS = $(DEVICE) # specify target MCU

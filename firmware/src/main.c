@@ -6,12 +6,12 @@
 #include "system_stm32f1xx.h"
 
 // FreeRTOS includes
-// #include "FreeRTOS.h"
-// #inlcude "tasks.h"
-// #include "semphr.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
 
 // FreeRTOS port
-// #include "portmacro.h"
+#include "portmacro.h"
 
 // project includes
 #include "pro_helpers.h"
@@ -25,11 +25,10 @@ int main (void){
 
   init_user_led();
   
-  user_led_on();
+  vTasksInit();
 
-  user_led_off();
+  vTaskStartScheduler();
   
-  while(1){
-    // main infinite loop
-  }
+  while(1){}
+  
 }
