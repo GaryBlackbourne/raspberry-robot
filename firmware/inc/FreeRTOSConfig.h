@@ -25,7 +25,7 @@ your application. */
 #define configTICK_RATE_HZ                      ( (TickType_t) 1000 ) // 1ms tick
 #define configMAX_PRIORITIES                    10 // maximum priorities a task can have
 #define configMINIMAL_STACK_SIZE                128 // minimal stack size
-#define configMAX_TASK_NAME_LEN                 16 // maximum length of characters
+#define configMAX_TASK_NAME_LEN                 32 // maximum length of characters
 #define configUSE_16_BIT_TICKS                  0 // use 32 bit long tick type
 #define configIDLE_SHOULD_YIELD                 1 // Idle task yield (not used now)
 #define configUSE_TASK_NOTIFICATIONS            1 // use notifications

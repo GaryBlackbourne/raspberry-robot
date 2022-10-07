@@ -1,7 +1,9 @@
 // standard includes
 #include <stdint.h>
+#include <stdbool.h>
 
 // mcu specific includes
+#include "projdefs.h"
 #include "stm32f103xb.h"
 #include "system_stm32f1xx.h"
 
@@ -19,16 +21,42 @@
 #include "pro_IRQ.h"
 #include "pro_tasks.h"
 
+// USART MSG BUFFERS
+volatile pro_message msg_in;
+volatile pro_message msg_out;
+
+volatile bool finish_command;
+
+TaskHandle_t TaskList[PRO_TASK_CNT];
+
 int main (void){
 
   init_clocks();
-
+  init_gpio_a();
   init_user_led();
-  
-  vTasksInit();
+  init_debug_usart();
 
-  vTaskStartScheduler();
+  user_led_on();
+
+  for(int i = 0; i < 800000; i ++);
   
-  while(1){}
+  if(pdPASS == xTasksInit(TaskList)){
+
+    user_led_off();
+    
+    vTaskStartScheduler();
+
+  }else{
+    
+    while(1);
+    
+  }
+
+  
+   
+  while(1){
+    //for(int i = 0; i < 800000; i++);
+    //debug_usart_send('f');
+  }
   
 }
