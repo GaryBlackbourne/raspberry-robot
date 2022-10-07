@@ -1,6 +1,6 @@
 
 MAKEFLAGS = --jobs=$(shell nproc) # allow multiple thread to be run when compiling
-MAKEFLAGS += --output-sync=target # buffer commands outputs
+# MAKEFLAGS += --output-sync=target # buffer commands outputs
 
 INCLUDE_DIRS = inc
 INCLUDE_FREERTOS = FreeRTOS/Source/include
