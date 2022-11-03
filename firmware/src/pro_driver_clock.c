@@ -8,14 +8,14 @@ void init_clocks(){
   RCC->CR &= ~RCC_CR_CSSON; // switch off Clock Security system, we use HSI
   RCC->CR &= ~RCC_CR_HSEBYP; // do not bípass HSE
   RCC->CR &= ~RCC_CR_HSEON; // switch off external clock
-  RCC->CR |= RCC_CR_HSION;  // select HSI as systemclock
+  RCC->CR |= RCC_CR_HSION;  // turn on HSI
 
 
-  RCC->CFGR &= ~(RCC_CFGR_MCOSEL_NOCLOCK | RCC_CFGR_MCOSEL_0 | RCC_CFGR_MCOSEL_1 | RCC_CFGR_MCOSEL_2);         // no clock is external
-  RCC->CFGR &= ~(RCC_CFGR_PPRE1_DIV1 | RCC_CFGR_PPRE1_0 | RCC_CFGR_PPRE1_1 | RCC_CFGR_PPRE1_2);                // disable APB1 prescale
-  RCC->CFGR &= ~(RCC_CFGR_PPRE2_DIV1 | RCC_CFGR_PPRE2_0 | RCC_CFGR_PPRE2_1 | RCC_CFGR_PPRE2_2);                // disable APB2 prescale
-  RCC->CFGR &= ~(RCC_CFGR_HPRE_DIV1 | RCC_CFGR_HPRE_0 | RCC_CFGR_HPRE_1 | RCC_CFGR_HPRE_2 | RCC_CFGR_HPRE_3);  // disable AHB prescale
-  RCC->CFGR &= ~(RCC_CFGR_SW_HSI | RCC_CFGR_SW_0 | RCC_CFGR_SW_0);
+  RCC->CFGR &= ~(RCC_CFGR_MCO_NOCLOCK | RCC_CFGR_MCO_Msk);   // no clock is external
+  RCC->CFGR &= ~(RCC_CFGR_PPRE1_DIV1 | RCC_CFGR_PPRE1_Msk);  // disable APB1 prescale
+  RCC->CFGR &= ~(RCC_CFGR_PPRE2_DIV1 | RCC_CFGR_PPRE2_Msk);  // disable APB2 prescale
+  RCC->CFGR &= ~(RCC_CFGR_HPRE_DIV1 | RCC_CFGR_HPRE_Msk);    // disable AHB prescale
+  RCC->CFGR &= ~(RCC_CFGR_SW_HSI | RCC_CFGR_SW_Msk);         // select HSI for system clock
 
   uint8_t clk_rdy = (RCC->CR | RCC_CR_HSIRDY_Msk);
   
