@@ -27,6 +27,8 @@ firmware/output/*
 firmware/openocd_stdout.log
 ### clang cache
 firmware/.cache/*
-
+### other things
+firmware/file
+firmware/toggle.sh
 ## Project Management
 .project-mgr/*

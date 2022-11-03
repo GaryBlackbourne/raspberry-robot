@@ -19,4 +19,6 @@ void backspace(pro_message *);
 
 void init_message(pro_message *);
 
+uint8_t compare(pro_message*, const char*);
+
 #endif

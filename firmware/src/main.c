@@ -17,46 +17,44 @@
 
 // project includes
 #include "pro_helpers.h"
-#include "pro_driver.h"
+
+#include "pro_driver_led.h"
+#include "pro_driver_usart.h"
+#include "pro_driver_clock.h"
+#include "pro_driver_gpio.h"
+
 #include "pro_IRQ.h"
+
 #include "pro_tasks.h"
 
 // USART MSG BUFFERS
-volatile pro_message msg_in;
-volatile pro_message msg_out;
+volatile pro_message input_msg_usart;
+volatile pro_message output_msg_usart;
 
 volatile bool finish_command;
 
-TaskHandle_t TaskList[PRO_TASK_CNT];
+TaskHandle_t task_list[PRO_TASK_CNT]; // 3
 
 int main (void){
 
+  // init hardware
   init_clocks();
   init_gpio_a();
   init_user_led();
   init_debug_usart();
 
-  user_led_on();
-
-  for(int i = 0; i < 800000; i ++);
+  // init debug usart input struct
+  init_message((pro_message*)&input_msg_usart);
   
-  if(pdPASS == xTasksInit(TaskList)){
+  user_led_on(); // indicate working condition
 
-    user_led_off();
+  if(pdPASS == xTasksInit(task_list)){
     
     vTaskStartScheduler();
 
-  }else{
-    
-    while(1);
-    
   }
-
-  
-   
-  while(1){
-    //for(int i = 0; i < 800000; i++);
-    //debug_usart_send('f');
-  }
+    
+  user_led_off();
+  while(1){}
   
 }

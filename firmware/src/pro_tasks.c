@@ -1,78 +1,70 @@
+#include "FreeRTOSConfig.h"
 #include "stdbool.h"
 
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "task.h"
 
-#include "pro_driver.h"
+#include "pro_driver_usart.h"
+#include "pro_driver_led.h"
+
 #include "pro_tasks.h"
+#include "pro_tasks_comm.h"
+#include "pro_tasks_motor.h"
+#include "pro_tasks_sensor.h"
+
 #include "pro_helpers.h"
 
 
-extern TaskHandle_t TaskList[PRO_TASK_CNT];
-
-extern pro_message msg_in;
-extern pro_message msg_out;
-
-
-void vTaskComm(void* vp){
-  while(1){
-    user_led_off();
-    //debug_usart_send_string_bad("Hello World\r\n", 13);
-    debug_usart_send('f');
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-  }
-}
-
-void vTaskOn(void* vp){
-  vTaskDelay(500 / portTICK_PERIOD_MS);
-  while(1){
-    user_led_off();
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-    // vTaskSuspend(NULL);
-  }
-}
-
-void vTaskOff(void* vp){
-  vTaskSuspend(NULL);
-  while(1){
-    //user_led_off();
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-    // vTaskSuspend(NULL);
-  }
-}
+extern TaskHandle_t task_list[PRO_TASK_CNT];
 
 BaseType_t xTasksInit(TaskHandle_t* TaskList) {
 
-  BaseType_t ret = true;
-  
-  ret &= xTaskCreate(
-	      vTaskOn,
-	      "Task On",
-	      1024,
-	      (void*)NULL,
-	      tskIDLE_PRIORITY + 1,
-	      &TaskList[0]
-      );
-   
-  ret &= xTaskCreate(
-	      vTaskOff,
-	      "Task OFF",
-	      1024,
-	      (void*)NULL,
-	      tskIDLE_PRIORITY + 1,
-	      &TaskList[1]
-      );
-  
-  ret &= xTaskCreate(
+  BaseType_t ret = pdFALSE; // = 0;
+
+  ret = xTaskCreate(
 	      vTaskComm,
 	      "Task Comm",
-	      1024,
+	      configMINIMAL_STACK_SIZE,
 	      (void*)NULL,
 	      tskIDLE_PRIORITY + 2,
-	      &TaskList[2]
+	      &task_list[TASK_COMM]
       );
 
+  if(ret != pdPASS){
+    debug_usart_send_string_bad("Task Comm creation failed!\r\n", 25);
+    return ret;
+  }
 
+  ret = xTaskCreate(
+	      vTaskMotor,
+	      "Task Motor",
+	      configMINIMAL_STACK_SIZE,
+	      (void*)NULL,
+	      tskIDLE_PRIORITY + 1,
+	      &TaskList[TASK_SENSOR]
+      );
+
+  if(ret != pdPASS){
+    debug_usart_send_string_bad("Task Motor creation failed!\r\n", 25);
+    return ret;
+  }
+   
+  ret = xTaskCreate(
+	      vTaskSensor,
+	      "Task Sensor",
+	      configMINIMAL_STACK_SIZE,
+	      (void*)NULL,
+	      tskIDLE_PRIORITY + 1,
+	      &TaskList[TASK_MOTOR]
+      );
+
+  if(ret != pdPASS){
+    debug_usart_send_string_bad("Task Sensor creation failed!\r\n", 25);
+    return ret;
+  }
+
+  debug_usart_send_string_bad("All tasks have been initialized!\r\n", 34);
+  
   return ret;  
 }

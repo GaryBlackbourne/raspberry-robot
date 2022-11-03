@@ -26,7 +26,7 @@ bool set_char(pro_message* msg, uint8_t pos, char c){
   }
 }
 
-void backspce(pro_message * msg){
+void backspace(pro_message * msg){
   if(msg->idx == 0){
     return;
   }
@@ -38,4 +38,16 @@ void init_message(pro_message * msg){
   msg->data[0] = '\0';
   msg->idx = 0;
   return;
+}
+
+uint8_t compare(pro_message* msg, const char* cmp_str){
+
+  uint8_t diff = 0;
+  
+  for(int i = 0; ((i < msg->idx) && (cmp_str[i] != '\0')); i++){
+    if(cmp_str[i] != msg->data[i]){
+      diff++;
+    }
+  }
+  return diff;
 }

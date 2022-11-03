@@ -16,10 +16,21 @@ MEMORY_START_ADDR = 0x8000000
 
 ## project files
 SOURCES = src/main.c
+
 SOURCES += src/pro_tasks.c
-SOURCES += src/pro_driver.c
+SOURCES += src/pro_tasks_comm.c
+SOURCES += src/pro_tasks_motor.c
+SOURCES += src/pro_tasks_sensor.c
+
+SOURCES += src/pro_driver_gpio.c
+SOURCES += src/pro_driver_led.c
+SOURCES += src/pro_driver_clock.c
+SOURCES += src/pro_driver_usart.c
+
 SOURCES += src/pro_helpers.c
+
 SOURCES += src/pro_IRQ.c
+
 
 ## MCU files
 SOURCES += src/startup_stm32f103c8tx.s

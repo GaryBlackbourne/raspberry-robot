@@ -46,7 +46,7 @@ your application. */
 /* Memory allocation related definitions. */
 #define configSUPPORT_STATIC_ALLOCATION             0
 #define configSUPPORT_DYNAMIC_ALLOCATION            1
-#define configTOTAL_HEAP_SIZE                       ( (size_t) (10 * 1024) ) // 20 KB SRAM in stm32f103c8 -> 10 KB heap usage
+#define configTOTAL_HEAP_SIZE                       ( (size_t) (15 * 1024) ) // 20 KB SRAM in stm32f103c8 -> 15 KB heap usage. FreeRTOS TASKS ARE LOCATED IN HEAP, only global stuff doesn't
 #define configAPPLICATION_ALLOCATED_HEAP            0 // linker allocates heap
 #define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP   0 // dont want to mess with stack allocation
 
@@ -75,8 +75,8 @@ your application. */
 /* Interrupt nesting behaviour configuration. */
 #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY	5
 #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY		0xf
-#define configKERNEL_INTERRUPT_PRIORITY         ( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )// from demo project
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY    ( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )
+#define configKERNEL_INTERRUPT_PRIORITY         ( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )// from demo project 
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY    ( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) ) // (5 << 4) = 0x50 = 80
 // from demo project
 #define configMAX_API_CALL_INTERRUPT_PRIORITY   configMAX_SYSCALL_INTERRUPT_PRIORITY // these are equivalent, src: freeRTOS documentation
 
