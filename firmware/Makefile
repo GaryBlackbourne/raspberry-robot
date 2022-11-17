@@ -26,6 +26,8 @@ SOURCES += src/pro_driver_gpio.c
 SOURCES += src/pro_driver_led.c
 SOURCES += src/pro_driver_clock.c
 SOURCES += src/pro_driver_usart.c
+SOURCES += src/pro_driver_timer.c
+SOURCES += src/pro_driver_i2c.c
 
 SOURCES += src/pro_helpers.c
 
