@@ -20,6 +20,8 @@ datasheets/
 \#auto_saved_files\#
 
 ## Firmware 
+### compile commands (can be generated with bear)
+firmware/compile_commands.json
 ### outputs
 firmware/output/*
 !firmware/output/.gitkeep
