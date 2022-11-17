@@ -3,6 +3,7 @@
 
 void init_user_led(){
   GPIOA->CRL |= GPIO_CRL_MODE4_0; // enable port 4 on 10MHz maximum frequency
+  GPIOA->CRL &= ~GPIO_CRL_MODE4_1;
   GPIOA->CRL &= ~GPIO_CRL_CNF4_Msk; // set push pull output behavior
   return;
 }
