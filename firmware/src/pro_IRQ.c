@@ -54,3 +54,14 @@ void USART2_IRQHandler(){
    
   return;
 }
+
+void I2C2_EV_IRQHandler(){
+
+  user_led_toggle();
+  
+  if(I2C2->SR1 & I2C_SR1_RXNE){
+    debug_usart_send(I2C2->DR);
+  }
+  
+  return;
+}
