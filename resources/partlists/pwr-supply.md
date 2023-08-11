@@ -38,6 +38,6 @@ All resistors are SMD 0805 type components
 # List of parts for the Battery module
 
 - BMS
-- 18650 battery
-- battery slot
+- 18650 battery (30W) [link]()
+- battery nest [link](https://www.intercell.hu/li_ion_18650_akkuakkumulator_tartofeszek_3_cellas_sorosparhuzamos_17129) 
 
