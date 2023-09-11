@@ -38,6 +38,6 @@ All resistors are SMD 0805 type components
 # List of parts for the Battery module
 
 - BMS
-- 18650 battery (30W) [link]()
+- 18650 battery (30W) [link](https://www.intercell.hu/samsung_18650_37v_3500mah_inr18650-35e_li-ion_ipari_cella_akkuakkumulator_31873)
 - battery nest [link](https://www.intercell.hu/li_ion_18650_akkuakkumulator_tartofeszek_3_cellas_sorosparhuzamos_17129) 
 
