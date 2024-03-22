@@ -3,31 +3,8 @@
 ## notes, and unimportant files
 notes
 
-## kicad temporary files and backup saves
-pcbs/movement-control/movement-control-backups
-pcbs/power-supply-unit/power-supply-unit-backups
-pcbs/*/fp-info-cache
-pcbs/*/gerbers
-
-## kicad netlist files
-pcbs/movement-control/*.net
-pcbs/power-supply-unit/*.net
-
 ## autosave files
 \#auto_saved_files\#
 
-## Firmware 
-### compile commands (can be generated with bear)
-firmware/compile_commands.json
-### outputs
-firmware/output/*
-!firmware/output/.gitkeep
-### openocd logs
-firmware/openocd_stdout.log
-### clang cache
-firmware/.cache/*
-### other things
-firmware/file
-firmware/toggle.sh
 ## Project Management
 .project-mgr/*

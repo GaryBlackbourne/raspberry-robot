@@ -1,0 +1,9 @@
+## kicad temporary files and backup saves
+movement-control/movement-control-backups
+power-supply-unit/power-supply-unit-backups
+*/fp-info-cache
+*/gerbers
+
+## kicad netlist files
+movement-control/*.net
+power-supply-unit/*.net
