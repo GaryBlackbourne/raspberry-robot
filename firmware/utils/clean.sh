@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
-rm build/obj/*
-rm build/out/*
-rm build/program.map
+PROJECT_ROOT=$(dirname "$0")/../
+source "$PROJECT_ROOT"/settings.sh
+
+rm "$OBJECT_DIR/*"
+rm "$WOUTPUT_DIR/*"
+rm "$MAPFIlE"
 

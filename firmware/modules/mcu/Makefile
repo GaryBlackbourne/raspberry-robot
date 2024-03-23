@@ -4,10 +4,15 @@ INCLUDES = $(wildcard inc/*.h)
 
 GCC_FLAGS += -Iinc
 
-all: $(OBJECT_DIR)/system_stm32f1xx.o $(OBJECT_DIR)/startup_stm32f103c8tx.o
+all: obj/system_stm32f1xx.o obj/startup_stm32f103c8tx.o
 
-$(OBJECT_DIR)/system_stm32f1xx.o: src/system_stm32f1xx.c
+obj/system_stm32f1xx.o: src/system_stm32f1xx.c
 	$(CC) $(GCC_FLAGS) -c $^ -o $@ 
 
-$(OBJECT_DIR)/startup_stm32f103c8tx.o: src/startup_stm32f103c8tx.s
+obj/startup_stm32f103c8tx.o: src/startup_stm32f103c8tx.s
 	$(CC) $(GCC_FLAGS) -c $^ -o $@ 
+
+clean:
+	@rm obj/*
+.PHONY: clean
+

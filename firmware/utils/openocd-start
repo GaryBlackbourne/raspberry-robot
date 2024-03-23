@@ -2,14 +2,14 @@
 
 # Edit this script with your script names for openocd
 
-INTERFACE=/usr/share/openocd/scripts/interface/<INTERFACE_SCRIPT_NAME>
-TARGET=/usr/share/openocd/scripts/target/<TARGET_SCRIPT_NAME>
-LOG=~/openocd_stdout.log
+INTERFACE="/usr/share/openocd/scripts/interface/stlink-v2.cfg"
+TARGET="$(dirname "$0")/stm32f1x.cfg"
+LOG="$(dirname "$0")/openocd_stdout.log"
 
 echo "Target script: $TARGET"
 echo "Interface script: $INTERFACE"
 echo "Starting OpenOCD and GDB server on localhost:3333"
 echo "process is in background"
-openocd -f $INTERFACE -f $TARGET 1>$LOG 2>/dev/null & 
+openocd -f "$INTERFACE" -f "$TARGET" 1>"$LOG" 2>/dev/null & 
 ps
 

@@ -15,7 +15,6 @@ if [ -z "$PROJECT_NAME" ]; then printf "No PROJECT_NAME was set"; exit 1; fi
 if [ -z "$CC" ]; then CC="/usr/bin/arm-none-eabi-gcc"; fi
 if [ -z "$LD" ]; then CC="/usr/bin/arm-none-eabi-gcc"; fi
 if [ -z "$DEVICE" ]; then printf "No DEVICE was set"; exit 1; fi
-if [ -z "$MAPFILE" ]; then printf "No MAPFILE was set"; exit 1; fi
 if [ -z "$CPU" ]; then printf "No CPU was set"; exit 1; fi
 if [ -z "$MAPFILE" ]; then printf "No MAPFILE was set"; exit 1; fi
 if [ -z "$LINKERSCRIPT" ] || [ "$LINKERSCRIP" = "modules/mcu/<linkerscript>" ]; then printf "No linkerscript was set"; exit 1; fi

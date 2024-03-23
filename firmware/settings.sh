@@ -8,18 +8,18 @@ fi
 printf "Source settings ... "
 
 # Project name
-PROJECT_NAME=""
+PROJECT_NAME="movement-control-firmware"
 
 # Toolchain settings
 CC="/usr/bin/arm-none-eabi-gcc"
 LD="/usr/bin/arm-none-eabi-gcc"
 
 # Compilation and linking settings
-DEVICE=""
-CPU=""
+DEVICE="STM32F103xB"
+CPU="cortex-m3"
 MAPFILE="build/program.map"
-LINKERSCRIPT="modules/mcu/<linkerscript>"
-MEMORY_START_ADDR=""
+LINKERSCRIPT="modules/mcu/STM32F103C8TX_FLASH.ld"
+MEMORY_START_ADDR="0x8000000"
 
 
 # Directory settings
@@ -31,7 +31,12 @@ OUTPUT_DIR="$BUILD_DIR"/out
 # Modules that are included in a build
 # The order goes by descending priority, so the FIRST item has the BIGGEST priority,
 # and the LAST item has the LOWEST priority
-MODULES=""
+MODULES=(
+    "mcu"
+    "FreeRTOS"
+    "bsp"
+    "core"
+)
 
 # general compiler options
 COMPILER_FLAGS=(

@@ -1,6 +1,12 @@
 #!/usr/bin/bash
 
-# Compile module
+# create directory
+mdkir -p obj/
 
+# Compile module
+make clean
 make -j"$(nproc)"
+
+# copy output to global output
+cp obj/* "$OBJECT_DIR/"
 
