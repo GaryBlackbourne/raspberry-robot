@@ -2,7 +2,7 @@
 
 
 # set project root directory
-PROJECT_ROOT=$(dirname "$0")/../
+PROJECT_ROOT=$(dirname "$0")/..
 export PROJECT_ROOT
 
 # source project and build settings
@@ -24,17 +24,17 @@ if [ -z "$MODULES" ]; then printf "Module list is empty"; exit 1; fi
 
 # Creating build directory if not exists
 mkdir -p "$OUTPUT_DIR"
-mdkir -p "$OBJECT_DIR"
+mkdir -p "$OBJECT_DIR"
 
 
-printf "Start building project %s\n" "$PROJECT_NAME"
+printf "Start building project: %s\n" "$PROJECT_NAME"
 printf "Compiling modules...\n"
 
 # compile each module
 for MODULE in $MODULES; do
     # if module directory exists, and module contaings a module script then execute
     if [ -d "$PROJECT_ROOT/modules/$MODULE" ] &&  [ -f "$PROJECT_ROOT/modules/$MODULE/module.sh" ]; then
-        pushd "$(dirname "$MODULE")" || exit 1
+        pushd "$PROJECT_ROOT/modules/$MODULE" || exit 1
         bash module.sh
         popd || exit 1
     else

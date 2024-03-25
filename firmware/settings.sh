@@ -5,7 +5,7 @@ if [ "$0" = "$BASH_SOURCE" ]; then
     exit 1
 fi
 
-printf "Source settings ... "
+printf "Source settings...\n"
 
 # Project name
 PROJECT_NAME="movement-control-firmware"
@@ -17,7 +17,7 @@ LD="/usr/bin/arm-none-eabi-gcc"
 # Compilation and linking settings
 DEVICE="STM32F103xB"
 CPU="cortex-m3"
-MAPFILE="build/program.map"
+MAPFILE="program.map"
 LINKERSCRIPT="modules/mcu/STM32F103C8TX_FLASH.ld"
 MEMORY_START_ADDR="0x8000000"
 
@@ -33,9 +33,6 @@ OUTPUT_DIR="$BUILD_DIR"/out
 # and the LAST item has the LOWEST priority
 MODULES=(
     "mcu"
-    "FreeRTOS"
-    "bsp"
-    "core"
 )
 
 # general compiler options
@@ -56,15 +53,15 @@ COMPILER_FLAGS=(
 # general linker options
 LINKER_FLAGS=(
     "-Wl,-T\"$LINKERSCRIPT\""  # specify linker script
-    "-Wl,-Map=$MAPFILE"    # specify .map file
+    "-Wl,-Map=$BUILD_DIR/$MAPFILE"    # specify .map file
     "-Wl,--gc-sections"    # linker doesnt link dead code
     "-Wl,-lc"
     "-Wl,-lm" # add -l switches and
     "-Wl,-static"              # static linking?
 )
 
-LD_FLAGS=$("${LINKER_FLAGS[@]}")
-GCC_FLAGS=$("${COMPILER_FLAGS[@]}")
+LD_FLAGS="${LINKER_FLAGS[@]}"
+GCC_FLAGS="${COMPILER_FLAGS[@]}"
 
 
 # Export necessary build environment settings
@@ -82,5 +79,6 @@ export LD
 export GCC_FLAGS
 export LD_FLAGS
 
-printf "DONE!\n"
+export MEMORY_START_ADDR
+
 

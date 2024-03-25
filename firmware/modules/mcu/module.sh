@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
 # create directory
-mdkir -p obj/
+mkdir -p obj/
 
 # Compile module
-make clean
+#make clean
 make -j"$(nproc)"
 
 # copy output to global output
