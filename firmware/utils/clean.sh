@@ -3,14 +3,14 @@
 PROJECT_ROOT=$(dirname "$0")/..
 source "$PROJECT_ROOT"/settings.sh
 
-for MODULE in $MODULES; do
+for MODULE in "${MODULES[@]}"; do
     if [ -d "$PROJECT_ROOT/modules/$MODULE" ] &&
            [ -d "$PROJECT_ROOT/modules/$MODULE/obj" ] &&
            [ -n "$(ls -A "$PROJECT_ROOT/modules/$MODULE/obj")" ];
     then
         rm "$PROJECT_ROOT/modules/$MODULE/obj"/*
     else
-        echo "clean module"
+        printf "clean module: %s\n" $MODULE
     fi
 done
 

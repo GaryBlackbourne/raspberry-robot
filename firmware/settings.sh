@@ -33,6 +33,9 @@ OUTPUT_DIR="$BUILD_DIR"/out
 # and the LAST item has the LOWEST priority
 MODULES=(
     "mcu"
+    "FreeRTOS"
+    "bsp"
+    "main"
 )
 
 # general compiler options

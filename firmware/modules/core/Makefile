@@ -1,5 +1,0 @@
-# MCU makefiles
-
-all:
-	@pwd
-
