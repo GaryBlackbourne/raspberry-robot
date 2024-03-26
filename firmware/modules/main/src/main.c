@@ -42,14 +42,10 @@ int main(void) {
     init_clocks();
     init_gpio();
     init_user_led();
-    init_debug_usart();
-    init_motor_timer();
-    init_raspberry_i2c();
 
-    // init debug usart input struct
-    init_message((pro_message*)&input_msg_usart);
 
     user_led_on(); // indicate working condition
+
 
     /*  if(pdPASS == xTasksInit(task_list)){
 
@@ -64,38 +60,49 @@ int main(void) {
     i2c_raspberry_stop();
     */
 
-    // start
-    // I2C2->CR1 |= I2C_CR1_START;
-    // while(!(I2C2->SR1 & I2C_SR1_SB));
-
-    // addr
-    // I2C2->DR = 0x04;
-
-    // data
-    // I2C2->DR = 54;
-    // int i = 10;
-    // while(i-- != 0);
-    // stop
-    // I2C2->CR1 |= I2C_CR1_STOP;
-    // while(!(I2C2->SR1 & I2C_SR1_TXE)); // wait for byte transfer to complete
-
-    // start is detected
-    // address is received
-    // address is compared
-
-    /* while(!(I2C2->SR1 & I2C_SR1_ADDR)); */
-    /* int temp = I2C2->SR1;                  // clear address bit in weird way
-     */
-    /* temp = I2C2->SR2;                      // clear address bit in weird way
-     */
-    /* // ACK pulse is sent (theoretically) */
-    /* I2C2->DR = 0x55;                       // fill data register with data to
-     * send */
-    /* while(!(I2C2->SR1 & I2C_SR1_TXE)); */
-    /* temp = I2C2->SR1; */
-    /* temp = I2C2->SR2;                      // clear TxE bit */
-    /* I2C2->CR1 |= I2C_CR1_STOP;             // clear STOPF bit */
 
     while (1) {
+	/* for (int i = 0; i < 1000000; i++) {} */
+	/* // user_led_off(); */
+	/* for (int i = 0; i < 1000000; i++) {} */
+	/* user_led_on(); */
     }
 }
+
+
+
+
+
+
+
+// start
+// I2C2->CR1 |= I2C_CR1_START;
+// while(!(I2C2->SR1 & I2C_SR1_SB));
+
+// addr
+// I2C2->DR = 0x04;
+
+// data
+// I2C2->DR = 54;
+// int i = 10;
+// while(i-- != 0);
+// stop
+// I2C2->CR1 |= I2C_CR1_STOP;
+// while(!(I2C2->SR1 & I2C_SR1_TXE)); // wait for byte transfer to complete
+
+// start is detected
+// address is received
+// address is compared
+
+/* while(!(I2C2->SR1 & I2C_SR1_ADDR)); */
+/* int temp = I2C2->SR1;                  // clear address bit in weird way
+ */
+/* temp = I2C2->SR2;                      // clear address bit in weird way
+ */
+/* // ACK pulse is sent (theoretically) */
+/* I2C2->DR = 0x55;                       // fill data register with data to
+ * send */
+/* while(!(I2C2->SR1 & I2C_SR1_TXE)); */
+/* temp = I2C2->SR1; */
+/* temp = I2C2->SR2;                      // clear TxE bit */
+/* I2C2->CR1 |= I2C_CR1_STOP;             // clear STOPF bit */

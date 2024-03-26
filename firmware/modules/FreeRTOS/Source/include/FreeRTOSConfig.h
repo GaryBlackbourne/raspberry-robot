@@ -12,8 +12,6 @@
 	#define configPRIO_BITS       		4        /* 16 priority levels */
 #endif
 
-extern void GPIO_on();
-
 /* Here is a good place to include header files that are required across
 your application. */
 

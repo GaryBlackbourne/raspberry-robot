@@ -19,7 +19,7 @@ DEVICE="STM32F103xB"
 CPU="cortex-m3"
 MAPFILE="program.map"
 LINKERSCRIPT="modules/mcu/STM32F103C8TX_FLASH.ld"
-MEMORY_START_ADDR="0x8000000"
+MEMORY_START_ADDR="0x08000000"
 
 
 # Directory settings
@@ -42,6 +42,7 @@ MODULES=(
 COMPILER_FLAGS=(
     "-D$DEVICE"            # specify target MCU
     "-Wall"                # enable all warnings
+    "-Wextra"
     "-ggdb"                # use maximum amount of info for gdb debugger
     "-mcpu=$CPU"           # specify CPU core
     "--specs=nano.specs"   # better newlib implementation (not nosys.specs)
@@ -49,12 +50,15 @@ COMPILER_FLAGS=(
     "-mfloat-abi=soft"     # application binary interface with floating points. 
                            # hard -> compiler using fp instructions,
                            # softfp -> allows fp instructions but maintains compatibility;
-    # "-mfpu=fpv4-sp-d16"    # specify fpu for hard fp abi
     "-O0"
 )
 
 # general linker options
 LINKER_FLAGS=(
+    "-mcpu=$CPU"           # specify CPU core
+    "--specs=nano.specs"   # better newlib implementation (not nosys.specs)
+    "-mthumb"              # use thumb instructions
+    "-mfloat-abi=soft"     # application binary interface with floating points. 
     "-Wl,-T\"$LINKERSCRIPT\""  # specify linker script
     "-Wl,-Map=$OUTPUT_DIR/$MAPFILE"    # specify .map file
     "-Wl,--gc-sections"    # linker doesnt link dead code
