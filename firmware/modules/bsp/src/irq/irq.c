@@ -2,15 +2,15 @@
 #include <stdbool.h>
 
 #include "FreeRTOS.h"
-#include "pro_driver_usart.h"
+#include "driver/usart.h"
 #include "task.h"
 
 #include "stm32f103xb.h"
 
-#include "pro_IRQ.h"
-#include "pro_helpers.h"
-#include "pro_tasks.h"
-#include "pro_driver_led.h"
+#include "irq/irq.h"
+#include "helpers/helpers.h"
+#include "tasks/tasks.h"
+#include "driver/led.h"
 
 extern pro_message input_msg_usart;
 extern pro_message output_msg_usart;

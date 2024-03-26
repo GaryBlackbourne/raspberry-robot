@@ -3,14 +3,14 @@
 #include "projdefs.h"
 #include "task.h"
 
-#include "pro_tasks.h"
+#include "tasks/tasks.h"
 
-#include "pro_tasks_comm.h"
+#include "tasks/communication.h"
 
-#include "pro_driver_usart.h"
-#include "pro_driver_led.h"
+#include "driver/usart.h"
+#include "driver/led.h"
 
-#include "pro_helpers.h"
+#include "helpers/helpers.h"
 
 extern pro_message input_msg_usart;
 extern pro_message output_msg_usart;

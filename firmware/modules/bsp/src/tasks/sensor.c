@@ -1,7 +1,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include "pro_tasks_motor.h"
+#include "tasks/motor.h"
 
 void vTaskSensor(void* vp){
   vTaskSuspend(NULL);

@@ -1,12 +1,12 @@
 #include "FreeRTOS.h"
 #include "portmacro.h"
-
-#include "pro_driver_usart.h"
-
 #include "task.h"
-#include "pro_tasks_motor.h"
 
-#include "pro_driver_timer.h"
+#include "driver/usart.h"
+#include "driver/timer.h"
+
+#include "tasks/motor.h"
+
 
 void vTaskMotor(void* vp){
 

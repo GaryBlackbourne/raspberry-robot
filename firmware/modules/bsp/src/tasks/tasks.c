@@ -5,15 +5,15 @@
 #include "portmacro.h"
 #include "task.h"
 
-#include "pro_driver_usart.h"
-#include "pro_driver_led.h"
+#include "driver/usart.h"
+#include "driver/led.h"
 
-#include "pro_tasks.h"
-#include "pro_tasks_comm.h"
-#include "pro_tasks_motor.h"
-#include "pro_tasks_sensor.h"
+#include "tasks/tasks.h"
+#include "tasks/communication.h"
+#include "tasks/motor.h"
+#include "tasks/sensor.h"
 
-#include "pro_helpers.h"
+#include "helpers/helpers.h"
 
 
 extern TaskHandle_t task_list[PRO_TASK_CNT];

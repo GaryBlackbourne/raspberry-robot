@@ -34,10 +34,17 @@ printf "Compiling modules...\n"
 for MODULE in "${MODULES[@]}"; do
     # if module directory exists, and module contaings a module script then execute
     if [ -d "$PROJECT_ROOT/modules/$MODULE" ] &&  [ -f "$PROJECT_ROOT/modules/$MODULE/module.sh" ]; then
-        pushd "$PROJECT_ROOT/modules/$MODULE" || exit 1
+
+        # execute module script
+        pushd "$PROJECT_ROOT/modules/$MODULE" >> /dev/null && printf "***** %s *****\n" $MODULE || exit 1
         bash module.sh || exit 1
-        popd || exit 1
-        cp "$PROJECT_ROOT/modules/$MODULE/obj"/*.o "$OBJECT_DIR" 
+        popd >> /dev/null || exit 1
+
+        # copy build output to global output
+        for OBJ in "$PROJECT_ROOT/modules/$MODULE/obj"/*.o; do
+            cp -v "$OBJ" "$OBJECT_DIR"/"$MODULE"_"$(basename "$OBJ")"
+        done
+
     else
         printf "No module was found by the name of %s" "$MODULE"
     fi
@@ -45,10 +52,10 @@ done
 printf "Compilation finished...\n"
 
 # link all module objects
-pushd "$PROJECT_ROOT" || exit 1
+pushd "$PROJECT_ROOT" >> /dev/null && printf "***** LINKING *****\n" || exit 1
 printf "Linking object files...\n"
 make all
-popd || exit 1
+popd >> /dev/null || exit 1
 
 printf "Build completed!\n"
 
