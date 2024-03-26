@@ -56,7 +56,7 @@ COMPILER_FLAGS=(
 # general linker options
 LINKER_FLAGS=(
     "-Wl,-T\"$LINKERSCRIPT\""  # specify linker script
-    "-Wl,-Map=$BUILD_DIR/$MAPFILE"    # specify .map file
+    "-Wl,-Map=$OUTPUT_DIR/$MAPFILE"    # specify .map file
     "-Wl,--gc-sections"    # linker doesnt link dead code
     "-Wl,-lc"
     "-Wl,-lm" # add -l switches and
