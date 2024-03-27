@@ -5,7 +5,7 @@ GCC_FLAGS += -I../FreeRTOS/Source/portable/GCC/ARM_CM3
 
 GCC_FLAGS += -Iinc
 GCC_FLAGS += -I../mcu/inc
-GCC_FLAGS += -I../bsp/inc
+GCC_FLAGS += -I../hal/inc
 
 SOURCES = $(wildcard src/*.c)
 OBJECTS = $(foreach src, $(SOURCES), $(notdir $(basename $(src))).o)

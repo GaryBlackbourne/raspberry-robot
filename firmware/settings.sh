@@ -34,7 +34,8 @@ OUTPUT_DIR="$BUILD_DIR"/out
 MODULES=(
     "mcu"
     "FreeRTOS"
-    "bsp"
+    #"bsp"
+    "hal"
     "main"
 )
 
@@ -50,6 +51,8 @@ COMPILER_FLAGS=(
     "-mfloat-abi=soft"     # application binary interface with floating points. 
                            # hard -> compiler using fp instructions,
                            # softfp -> allows fp instructions but maintains compatibility;
+    "-ffunction-sections"
+    "-fdata-sections"
     "-O0"
 )
 

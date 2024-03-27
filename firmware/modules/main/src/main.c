@@ -3,77 +3,55 @@
 #include <stdint.h>
 
 // mcu specific includes
+#include "Legacy/stm32_hal_legacy.h"
+#include "projdefs.h"
 #include "stm32f103xb.h"
+#include "stm32f1xx.h"
+#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_gpio.h"
 #include "system_stm32f1xx.h"
 
 // FreeRTOS includes
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
-
-// FreeRTOS port
 #include "portmacro.h"
+#include "robot_tasks.h"
 
-// project includes
-#include "helpers/helpers.h"
-
-#include "driver/clock.h"
-#include "driver/gpio.h"
-#include "driver/i2c.h"
-#include "driver/led.h"
-#include "driver/timer.h"
-#include "driver/usart.h"
-
-#include "tasks/tasks.h"
-#include "irq/irq.h"
-
-
-// USART MSG BUFFERS
-volatile pro_message input_msg_usart;
-volatile pro_message output_msg_usart;
-
-volatile bool finish_command;
-
-TaskHandle_t task_list[PRO_TASK_CNT]; // 3
+extern TaskHandle_t* TaskList;
 
 int main(void) {
 
-    // init hardware
-    init_clocks();
-    init_gpio();
-    init_user_led();
+    HAL_Init();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 
 
-    user_led_on(); // indicate working condition
+    GPIO_InitTypeDef gpio_params = {
+	.Mode  = GPIO_MODE_OUTPUT_PP,
+	.Pin = GPIO_PIN_4,
+	.Speed = GPIO_SPEED_FREQ_LOW,
+	.Pull = GPIO_NOPULL,
+    };
+    HAL_GPIO_Init(GPIOA, &gpio_params);
 
+    BaseType_t ret = xInitRobotTasks(TaskList);
+    if (ret != pdTRUE) { while (1) {} }
+    vTaskStartScheduler();
 
-    /*  if(pdPASS == xTasksInit(task_list)){
-
-      vTaskStartScheduler();
-
-    }
-    user_led_off();*/
-    /*
-    i2c_raspberry_start();
-    i2c_raspberry_addr(0x09, 100);
-    i2c_raspberry_data(54);
-    i2c_raspberry_stop();
-    */
-
-
-    while (1) {
-	/* for (int i = 0; i < 1000000; i++) {} */
-	/* // user_led_off(); */
-	/* for (int i = 0; i < 1000000; i++) {} */
-	/* user_led_on(); */
-    }
+    while (1) {}
 }
 
+extern BaseType_t xPortSysTickHandler(void);
+void SysTick_Handler(void) {
+    if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+	xPortSysTickHandler();
+    }
+    HAL_IncTick();
+}
 
-
-
-
-
+void HardFault_Handler() {
+    while (1) {}
+}
 
 // start
 // I2C2->CR1 |= I2C_CR1_START;
