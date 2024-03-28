@@ -2,11 +2,10 @@
 #include "portmacro.h"
 #include "task.h"
 
-#include "tasks/motor.h"
 
 void vTaskMotor(void* vp){
-
-  while(1) {}
+    (void)vp;
+    while(1) {}
 }
 
 /*

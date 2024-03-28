@@ -13,11 +13,15 @@
 #define TASK_SENSOR 1
 #define TASK_MOTOR 2
 
-#define USART_MESSAGE_RECEIVED (1 << 0)
-#define USART_MESSAGE_LENGTH_ERR (1 << 1)
+/* Index type to address TaskList array for the appropriate task handle */
+enum RobotTaskIndex {
+    TaskIdx_CommandProcessor = 0
+};
 
+/* Task initializer function */
 BaseType_t xInitRobotTasks(TaskHandle_t*);
 
+/* Task for serial communication */
 void vTaskCommandProcessor(void *);
 
 /* void vTaskOn(void *); */

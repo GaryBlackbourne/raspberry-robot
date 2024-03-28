@@ -18,7 +18,7 @@ BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
 	configMINIMAL_STACK_SIZE,
 	(void*)NULL,
 	tskIDLE_PRIORITY + 2,
-	&TaskList[0]
+	&TaskList[TaskIdx_CommandProcessor]
 	);
     if (ret != pdTRUE) {
 	return ret;

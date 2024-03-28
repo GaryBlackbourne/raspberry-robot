@@ -9,6 +9,7 @@
 #include "stm32f1xx.h"
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_gpio.h"
+#include "stm32f1xx_hal_rcc.h"
 #include "system_stm32f1xx.h"
 
 // FreeRTOS includes
@@ -22,10 +23,15 @@ extern TaskHandle_t* TaskList;
 
 int main(void) {
 
+    /* Init HAL layer */
     HAL_Init();
+
+    /* Init Clocks peripherals */
     __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_USART2_CLK_ENABLE();
+    __HAL_RCC_DMA1_CLK_ENABLE();
 
-
+    /* Initialize GPIO (temporary) */
     GPIO_InitTypeDef gpio_params = {
 	.Mode  = GPIO_MODE_OUTPUT_PP,
 	.Pin = GPIO_PIN_4,
@@ -34,8 +40,11 @@ int main(void) {
     };
     HAL_GPIO_Init(GPIOA, &gpio_params);
 
+    /* Initialize robot tasks list */
     BaseType_t ret = xInitRobotTasks(TaskList);
     if (ret != pdTRUE) { while (1) {} }
+
+    /* Start kernel */
     vTaskStartScheduler();
 
     while (1) {}

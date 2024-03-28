@@ -34,7 +34,6 @@ OUTPUT_DIR="$BUILD_DIR"/out
 MODULES=(
     "mcu"
     "FreeRTOS"
-    #"bsp"
     "hal"
     "main"
 )
