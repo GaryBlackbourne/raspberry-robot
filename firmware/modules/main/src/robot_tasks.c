@@ -5,7 +5,6 @@
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "task.h"
-#include "command_processor.h"
 #include "robot_tasks.h"
 
 TaskHandle_t TaskList[1];
@@ -15,7 +14,7 @@ BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
     BaseType_t ret = xTaskCreate(
 	vTaskCommandProcessor,
 	"CommandProcessor",
-	configMINIMAL_STACK_SIZE,
+	1024,
 	(void*)NULL,
 	tskIDLE_PRIORITY + 2,
 	&TaskList[TaskIdx_CommandProcessor]
