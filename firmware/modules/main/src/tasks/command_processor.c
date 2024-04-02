@@ -1,17 +1,8 @@
 #include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
-#include "Legacy/stm32_hal_legacy.h"
 #include "main.h"
 #include "portmacro.h"
-#include "projdefs.h"
-#include "stm32f103xb.h"
-#include "stm32f1xx_hal.h"
-#include "stm32f1xx_hal_cortex.h"
-#include "stm32f1xx_hal_def.h"
 #include "stm32f1xx_hal_gpio.h"
-#include "stm32f1xx_hal_dma.h"
 #include "stm32f1xx_hal_uart.h"
-#include "stm32f1xx_hal_usart.h"
 #include "task.h"
 
 #include "robot_tasks.h"
@@ -19,13 +10,16 @@
 
 extern UART_HandleTypeDef huart2;
 
+uint8_t rxbuffer[32] = {0};
+uint8_t txbuffer[32] = {0};
+
 void vTaskCommandProcessor(void* vp) {
     (void)vp;
-    uint8_t txbuffer[9] = "iterate\r\n";
+
+    HAL_UART_Receive_IT(&huart2, rxbuffer, 1);
+    HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
     while (1) {
-        /* HAL_Delay(100); */
-        HAL_UART_Transmit_DMA(&huart2, txbuffer, 9);
-        HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+        /* HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); */
         vTaskDelay(100/portTICK_PERIOD_MS);
     }
 

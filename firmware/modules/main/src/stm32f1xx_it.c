@@ -2,7 +2,10 @@
 #include "FreeRTOS.h"
 #include "main.h"
 #include "portmacro.h"
+#include "stm32f1xx_hal_def.h"
+#include "stm32f1xx_hal_uart.h"
 #include "task.h"
+#include <stdint.h>
 
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
@@ -42,4 +45,7 @@ void DMA1_Channel6_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_rx); }
 
 void DMA1_Channel7_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_tx); }
 
-void USART2_IRQHandler(void) { HAL_UART_IRQHandler(&huart2); }
+void USART2_IRQHandler(void) {
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    HAL_UART_IRQHandler(&huart2);
+}
