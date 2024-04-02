@@ -5,13 +5,13 @@
 #include <stdint.h>
 typedef struct RobotInternals {
 
-    /* values of the ranging sensor: */
-    struct {
-	uint32_t forward;
-	uint32_t right;
-	uint32_t backward;
-	uint32_t left;
-    } distance;
+    /* /\* values of the ranging sensor: *\/ */
+    /* struct { */
+    /* 	uint32_t forward; */
+    /* 	uint32_t right; */
+    /* 	uint32_t backward; */
+    /* 	uint32_t left; */
+    /* } distance; */
 
     /* The actual speed which is measured by encoders */
     struct {
