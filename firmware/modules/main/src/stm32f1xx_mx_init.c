@@ -1,5 +1,6 @@
 #include "stm32f1xx_mx_init.h"
 #include "main.h"
+#include "stm32f103xb.h"
 
 void SystemClock_Config(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -184,6 +185,9 @@ void MX_USART2_UART_Init(void) {
     if (HAL_UART_Init(&huart2) != HAL_OK) {
         Error_Handler();
     }
+    // turn off interrupt upon complete transmission
+    huart2.Instance->CR1 &= ~USART_CR1_TCIE;
+    huart2.Instance->CR1 &= ~USART_CR1_TXEIE;
 }
 
 void MX_DMA_Init(void) {

@@ -16,6 +16,7 @@ DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
 
 extern TaskHandle_t* TaskList;
+
 int main(void) {
 
     HAL_Init();

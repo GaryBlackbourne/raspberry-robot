@@ -12,9 +12,9 @@ TaskHandle_t TaskList[1];
 BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
     
     BaseType_t ret = xTaskCreate(
-	vTaskCommandProcessor,
+	vTaskCommsProcessor,
 	"CommandProcessor",
-	1024,
+	2048,
 	(void*)NULL,
 	tskIDLE_PRIORITY + 2,
 	&TaskList[TaskIdx_CommandProcessor]
@@ -26,6 +26,18 @@ BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
     return pdTRUE;
 }
 
+void push_char(Message* m, char c) {
+    m->message[m->idx] = c;
+    m->idx = (m->idx + 1) % 32;
+}
+
+void clear_message(Message* m) {
+    m->idx = 0;
+    for (int i = 0; i < 32; i++) {
+	m->message[i] = '\0';
+    }
+    m->type = Command;
+}
 /*
   BaseType_t ret = pdFALSE; // = 0;
 
