@@ -14,10 +14,10 @@ typedef enum Message_type_t {
 } Message_type_t;
 
 typedef struct Message {
-    Message_type_t type;
-    char message[32];
-    uint8_t idx;
-} Message;
+    Message_type_t type; // 1
+    char message[32];    // 32
+    uint8_t idx;         // 1
+} Message;               // 34
 
 void push_char(Message* m, char c);
 

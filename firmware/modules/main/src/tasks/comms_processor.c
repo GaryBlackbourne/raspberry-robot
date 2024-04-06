@@ -19,6 +19,12 @@ static bool CmdCompare(const char* cmd1, const char* cmd2, uint8_t size);
 
 extern UART_HandleTypeDef huart2;
 
+/**
+   This is the comms queue. Every message form the uart terminal comes here,
+   and every log message going out, through the uart goes here.
+
+   The CommsProcessor task simply gets the messages out and handles them.
+ */
 QueueHandle_t CommsQueue;
 
 void vTaskCommsProcessor(void* vp) {
@@ -43,7 +49,7 @@ void vTaskCommsProcessor(void* vp) {
 		timeouts = 0;
 	    }
 	}
-
+	
 	// message was received so it has to have a type
 	switch (ReceivedMessage->type) {
 
@@ -57,8 +63,16 @@ void vTaskCommsProcessor(void* vp) {
             break;
         }
     }
-
+    // end of comms processor, we cant get here
+    while(1){}
 }
+
+
+
+
+
+
+
 
 #define min(x, y) (x < y) ? x : y
 #define max(x, y) (x > y) ? x : y
@@ -67,16 +81,22 @@ void vTaskCommsProcessor(void* vp) {
 static const char* led_on_cmd = "led_on";
 static const char* led_off_cmd = "led_off";
 
+/**
+   This is the function which gets called when a command is received from
+   the uart. It compares the command and executes it
+ */
 static void HandleCommand(char* cmd, uint8_t size) {
     
     if ( (size == 6) && CmdCompare(cmd,led_on_cmd, size) ) {
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-    }
-    if ( (size == 7) && CmdCompare(cmd, led_off_cmd, size) ) {
+    } else if ( (size == 7) && CmdCompare(cmd, led_off_cmd, size) ) {
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
     }
 };
 
+/**
+   This is the function handling answers, which should go to the uart.
+ */
 static void HandleAnswer(char* ans, uint8_t size) {
     HAL_UART_Transmit_DMA(&huart2, (uint8_t*)ans, size);
 }

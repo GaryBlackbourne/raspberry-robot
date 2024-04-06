@@ -52,14 +52,15 @@ void DMA1_Channel6_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_rx); }
 
 void DMA1_Channel7_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_tx); }
 
-Message rxMessages[5] = {0};
+#define MAX_COMMAND_CHAIN_LENGTH 5
+Message rxMessages[MAX_COMMAND_CHAIN_LENGTH] = {0};
 uint8_t current_message_idx = 0;
 extern QueueHandle_t CommsQueue;
 
 void USART2_IRQHandler(void) {
-    if (huart2.Instance->SR & USART_SR_RXNE){
+    if (USART2->SR & USART_SR_RXNE){
 	// read data
-	uint8_t data = huart2.Instance->DR; 
+	uint8_t data = USART2->DR; 
 
 	// select rxMessage buffer
 	Message* current_message = &rxMessages[current_message_idx];
@@ -79,7 +80,7 @@ void USART2_IRQHandler(void) {
 	    xQueueSendToBackFromISR(CommsQueue, &current_message, NULL);
 
 	    // select new message struct
-	    current_message_idx = (current_message_idx + 1) % 5;
+	    current_message_idx = (current_message_idx + 1) % MAX_COMMAND_CHAIN_LENGTH;
 
 	    // clear new message struct by setting the index to null
 	    rxMessages[current_message_idx].idx = 0;
