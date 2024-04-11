@@ -1,37 +1,27 @@
 #ifndef _ROBOT_TASKS_H
 #define _ROBOT_TASKS_H
 
-#include "stdbool.h"
-
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "task.h"
-#include <stdint.h>
 
-typedef enum Message_type_t {
-    Answer,
-    Command,
-} Message_type_t;
+#define RX_QUEUE_LENGTH 5
+#define RX_BUFFER_LENGHT 20
 
-typedef struct Message {
-    Message_type_t type; // 1
-    char message[32];    // 32
-    uint8_t idx;         // 1
-} Message;               // 34
-
-void push_char(Message* m, char c);
-
-void clear_message(Message* m);
+#define TX_QUEUE_LENGTH 5
+#define TX_BUFFER_LENGTH 20
 
 /* Index type to address TaskList array for the appropriate task handle */
 enum RobotTaskIndex {
-    TaskIdx_CommandProcessor = 0
+    TaskIdx_RxProcessor = 0,
+    TaskIdx_TxProcessor = 1,
 };
 
 /* Task initializer function */
 BaseType_t xInitRobotTasks(TaskHandle_t*);
 
 /* Task for serial communication */
-void vTaskCommsProcessor(void *);
+void vTaskTxProcessor(void *vp);
+void vTaskRxProcessor(void *vp);
 
 #endif

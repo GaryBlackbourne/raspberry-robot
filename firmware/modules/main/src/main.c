@@ -5,15 +5,13 @@
 #include "stm32f1xx_hal_uart.h"
 #include "stm32f1xx_mx_init.h"
 
-I2C_HandleTypeDef hi2c1;
-
-TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim3;
-
-UART_HandleTypeDef huart2;
-DMA_HandleTypeDef hdma_usart2_rx;
-DMA_HandleTypeDef hdma_usart2_tx;
+extern I2C_HandleTypeDef hi2c1;
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern UART_HandleTypeDef huart2;
+extern DMA_HandleTypeDef hdma_usart2_rx;
+extern DMA_HandleTypeDef hdma_usart2_tx;
 
 extern TaskHandle_t* TaskList;
 
@@ -40,6 +38,5 @@ int main(void) {
     vTaskStartScheduler();
 
     // end of main protection
-    while (1) {
-    }
+    while (1) {}
 }
