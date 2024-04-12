@@ -37,7 +37,7 @@ for MODULE in "${MODULES[@]}"; do
 
         # execute module script
         pushd "$PROJECT_ROOT/modules/$MODULE" >> /dev/null && printf "***** %s *****\n" $MODULE || exit 1
-        bash module.sh || exit 1
+        bash module.sh || (printf "Build failed at compiling %s module" "$MODULE" && exit 1)
         popd >> /dev/null || exit 1
 
         # copy build output to global output
@@ -54,7 +54,7 @@ printf "Compilation finished...\n"
 # link all module objects
 pushd "$PROJECT_ROOT" >> /dev/null && printf "***** LINKING *****\n" || exit 1
 printf "Linking object files...\n"
-make all
+make all || (printf "Build failed at linking!" && exit 1)
 popd >> /dev/null || exit 1
 
 printf "Build completed!\n"

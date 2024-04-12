@@ -27,6 +27,8 @@ BUILD_DIR="$PROJECT_ROOT"/build
 OBJECT_DIR="$BUILD_DIR"/obj
 OUTPUT_DIR="$BUILD_DIR"/out
 
+# Debug level and optimalization
+OPTIMALIZATION=0
 
 # Modules that are included in a build
 # The order goes by descending priority, so the FIRST item has the BIGGEST priority,
@@ -43,7 +45,7 @@ COMPILER_FLAGS=(
     "-D$DEVICE"            # specify target MCU
     "-Wall"                # enable all warnings
     "-Wextra"
-    "-ggdb"                # use maximum amount of info for gdb debugger
+    "-ggdb"                
     "-mcpu=$CPU"           # specify CPU core
     "--specs=nano.specs"   # better newlib implementation (not nosys.specs)
     "-mthumb"              # use thumb instructions
@@ -54,6 +56,17 @@ COMPILER_FLAGS=(
     "-fdata-sections"
     "-O0"
 )
+
+# Add optimalization and debutg level flags
+if [ $OPTIMALIZATION -eq 0 ]; then
+    COMPILER_FLAGS+=("-g3") # use maximum amount of info for debugger
+    COMPILER_FLAGS+=("-ggdb") # add info for gdb
+    COMPILER_FLAGS+=("-O0")
+fi
+
+COMPILER_FLAGS+=("-O""$OPTIMALIZATION")
+# -O3 -> performance
+# -Os -> size
 
 # general linker options
 LINKER_FLAGS=(
