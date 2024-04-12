@@ -2,6 +2,8 @@
 #define _MAIN_COMMAND_PARSER_H
 
 #include <stdint.h>
+#include "portmacro.h"
+#include "robot_tasks.h"
 
 typedef enum CommandType {
     Get = 1,
@@ -28,10 +30,24 @@ typedef struct Command {
     uint16_t data[4];
 } Command;
 
+typedef struct Answer {
+    char string[TX_BUFFER_LENGTH];
+    uint8_t size;
+} Answer;
+
+typedef enum Response {
+    Acknowledge,
+    Unknown,
+    Done,
+    Error,
+} Response;
+
 int chars_to_val(char c_high, char c_low, uint8_t* res);
 
 int parse_command(const char* command, Command* cmd);
+
 int execute_command(Command* cmd);
 
+BaseType_t send_response(Response resp);
 
 #endif

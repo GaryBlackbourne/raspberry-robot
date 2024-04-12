@@ -1,5 +1,11 @@
-#include "command_parser.h"
 #include <stdint.h>
+
+#include "FreeRTOS.h"
+#include "portmacro.h"
+#include "queue.h"
+
+#include "command_parser.h"
+#include "robot_tasks.h"
 
 
 int parse_command(const char* command, Command* cmd) {
@@ -204,5 +210,32 @@ int execute_command(Command *cmd) {
         return -1; // should not happen
     }
     return 0;
+}
+
+char* tx_buffer;
+extern QueueHandle_t TxQueue;
+
+BaseType_t send_response(Response resp) {
+    char c = '\0';
+    switch (resp) {
+    case Acknowledge:
+        c = 'a';
+        break;
+    case Unknown:
+        c = 'u';
+        break;
+    case Done:
+        c = 'd';
+        break;
+    case Error:
+        c = 'e';
+        break;
+    }
+    Answer ans = {
+        .string[0] = c,
+        .string[1] = '\0',
+        .size = 1,
+    };
+    return xQueueSendToBack(TxQueue, &ans, portMAX_DELAY);
 }
 

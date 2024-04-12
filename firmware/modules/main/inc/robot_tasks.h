@@ -6,10 +6,10 @@
 #include "task.h"
 
 #define RX_QUEUE_LENGTH 5
-#define RX_BUFFER_LENGHT 20
+#define RX_BUFFER_LENGHT 14   /* based on the longest possible received command: svrl-aaaabbbb */ 
 
 #define TX_QUEUE_LENGTH 5
-#define TX_BUFFER_LENGTH 20
+#define TX_BUFFER_LENGTH 17   /* based on the longest possible answer: aaaabbbbccccdddd */ 
 
 /* Index type to address TaskList array for the appropriate task handle */
 enum RobotTaskIndex {
