@@ -21,14 +21,17 @@ void vTaskRxProcessor(void* vp) {
     RxQueue = xQueueCreate(RX_QUEUE_LENGTH, sizeof(char*));
 
     // rx string buffer
-    char rx_buffer[RX_BUFFER_LENGHT];
+    char *rx_buffer = NULL;
 
     // struct for current command
     Command cmd;
 
+    // enable usart
+    __HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
+
     while (1) {
         // wait for message in queue
-        while (xQueueReceive(RxQueue, rx_buffer, portMAX_DELAY) != pdTRUE) {
+        while (xQueueReceive(RxQueue, &rx_buffer, portMAX_DELAY) != pdTRUE) {
         }
 
         // parse command string to command struct
@@ -40,11 +43,11 @@ void vTaskRxProcessor(void* vp) {
         // TODO: where do we generate response?
 
         // execute command struct
-        if (execute_command(&cmd) != 0) {
+        /* if (execute_command(&cmd) != 0) { */
             // internal error happens
-            while (1) {}
-        }
-        
+            /* while (1) {} */
+        /* } */
+
     }
 }
 

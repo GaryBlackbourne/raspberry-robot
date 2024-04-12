@@ -14,6 +14,7 @@ typedef enum CommandTarget {
 } CommandTarget;
 
 typedef enum Direction {
+    None = 0,
     Forward = 1,
     Backward = 2,
     Right = 3,
@@ -27,10 +28,10 @@ typedef struct Command {
     uint16_t data[4];
 } Command;
 
-int char_to_val(char c_high, char c_low, uint16_t* res);
-int char_to_val(char c_high, char c_low, uint16_t* res);
+int chars_to_val(char c_high, char c_low, uint8_t* res);
 
 int parse_command(const char* command, Command* cmd);
 int execute_command(Command* cmd);
+
 
 #endif

@@ -1,4 +1,5 @@
 #include "command_parser.h"
+#include <stdint.h>
 
 
 int parse_command(const char* command, Command* cmd) {
@@ -30,6 +31,12 @@ int parse_command(const char* command, Command* cmd) {
     default:
         return -1;
     }
+
+    // clear directions
+    cmd->directions[0] = None;
+    cmd->directions[1] = None;
+    cmd->directions[2] = None;
+    cmd->directions[3] = None;
 
     uint8_t number_of_directions = 0;
     // parse directions
@@ -99,22 +106,41 @@ int parse_command(const char* command, Command* cmd) {
         }
     }
 
+
     // process numeric values
-    // points to the first character of the first number
     // 3 -> type + target + '-'
     // + number of directions
-    uint8_t first_value_idx = 3 + number_of_directions; 
+
+    // points to the first character of the first number | 1      + 1        + number_of_directions + 1   |
+    //                                                   | [type] + [target] + directions           + '-' |
+    uint8_t first_value_idx = 1 + 1 + number_of_directions + 1; 
+    
+    // if separator not present, then return 1
+    if (command[first_value_idx-1] != '-') {
+        return 1; 
+    }
 
     for (int i = 0; i < number_of_directions; i ++) {
-        int ret = char_to_val(
-                                   command[ first_value_idx + i*2 ],
-                                   command[ first_value_idx + i*2 + 1 ],
-                                   &(cmd->data[i])
+        uint8_t higher_byte = 0;
+        int ret = chars_to_val(
+                                   command[ first_value_idx + i*4     ],
+                                   command[ first_value_idx + i*4 + 1 ],
+                                   &higher_byte
                                    );
-        // if invalid character is found then
         if (ret != 0) {
-            return -1;
+            return -1;  // if invalid character is found then error, skip messages
         }
+        uint8_t lower_byte = 0;
+        ret = chars_to_val(
+                                   command[ first_value_idx + i*4 + 2 ],
+                                   command[ first_value_idx + i*4 + 3 ],
+                                   &lower_byte
+                                   );
+        if (ret != 0) {
+            return -1;  // if invalid character is found then error, skip message
+        }
+
+        cmd->data[i] = (higher_byte << 8) + lower_byte;
     }
 
     return 0;
@@ -136,7 +162,7 @@ int char_to_hex(char c, uint8_t* h) {
     return -1;
 }
 
-int char_to_val(char c_high, char c_low, uint16_t* res) {
+int chars_to_val(char c_high, char c_low, uint8_t* res) {
     uint8_t h_high = 0;
     uint8_t h_low = 0;
 
@@ -147,7 +173,7 @@ int char_to_val(char c_high, char c_low, uint16_t* res) {
         return -1;
     }
 
-    *res = ((h_high << 8) + h_low);
+    *res = ((h_high << 4) + h_low);
     return 0;
 }
 
