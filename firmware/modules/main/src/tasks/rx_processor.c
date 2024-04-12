@@ -37,17 +37,22 @@ void vTaskRxProcessor(void* vp) {
         // parse command string to command struct
         if (parse_command(rx_buffer, &cmd) != 0) {
             // this is a false package, we throw it away
+            send_response(Unknown);
             continue;
         }
 
-        // TODO: where do we generate response?
+        // send 'acknowledge' character [a]
+        send_response(Acknowledge);
 
         // execute command struct
-        /* if (execute_command(&cmd) != 0) { */
-            // internal error happens
-            /* while (1) {} */
-        /* } */
+        if (execute_command(&cmd) != 0) {
+            /* internal error happens */
+            send_response(Error);
+            continue;
+        }
 
+        // send 'done' character [d]
+        send_response(Done);
     }
 }
 
