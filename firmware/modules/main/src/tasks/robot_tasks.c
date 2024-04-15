@@ -14,18 +14,19 @@
    - Motor Control
    - Sensor Reader
  */
-extern TaskHandle_t* TaskList; 
+TaskHandle_t RxProcessorTaskHandle;
+TaskHandle_t TxProcessorTaskHandle;
 
-BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
+BaseType_t xInitRobotTasks() {
     BaseType_t ret = pdTRUE;
     ret = xTaskCreate(
 	vTaskRxProcessor,
 	"RxProcessor",
-	2048,
+	configMINIMAL_STACK_SIZE + 100,
 	(void*)NULL,
 	tskIDLE_PRIORITY + 2,
-	&TaskList[TaskIdx_RxProcessor]
-	);
+        &RxProcessorTaskHandle
+	              );
     if (ret != pdTRUE) {
 	return ret;
     }
@@ -33,11 +34,11 @@ BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
     ret = xTaskCreate(
 	vTaskTxProcessor,
 	"TxProcessor",
-	2048,
+	configMINIMAL_STACK_SIZE + 100,
 	(void*)NULL,
 	tskIDLE_PRIORITY + 2,
-	&TaskList[TaskIdx_TxProcessor]
-	);
+        &TxProcessorTaskHandle
+	              );
     if (ret != pdTRUE) {
 	return ret;
     }

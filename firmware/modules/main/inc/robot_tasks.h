@@ -18,7 +18,7 @@ enum RobotTaskIndex {
 };
 
 /* Task initializer function */
-BaseType_t xInitRobotTasks(TaskHandle_t*);
+BaseType_t xInitRobotTasks();
 
 /* Task for serial communication */
 void vTaskTxProcessor(void *vp);

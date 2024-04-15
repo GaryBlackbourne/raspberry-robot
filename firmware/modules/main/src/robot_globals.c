@@ -3,6 +3,7 @@
  */
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "semphr.h"
 
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_uart.h"
@@ -10,9 +11,9 @@
 
 
 // FreeRTOS
-TaskHandle_t* TaskList[4]; 
 QueueHandle_t RxQueue;
 QueueHandle_t TxQueue;
+SemaphoreHandle_t TxDMALock;
 
 // HAL Peripherals
 UART_HandleTypeDef huart2;

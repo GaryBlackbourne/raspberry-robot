@@ -3,17 +3,21 @@
 #include "FreeRTOS.h"
 #include "projdefs.h"
 #include "queue.h"
-#include "portmacro.h"
-#include "robot_tasks.h"
-#include "stm32f1xx.h"
-#include "stm32f1xx_hal_gpio.h"
 #include "task.h"
+#include "portmacro.h"
+#include "semphr.h"
+
+#include "robot_tasks.h"
 
 #include "main.h"
+
+#include "stm32f1xx.h"
+#include "stm32f1xx_hal_gpio.h"
 #include "stm32f103xb.h"
 #include "stm32f1xx_hal_def.h"
 #include "stm32f1xx_hal_uart.h"
 
+#include <stdbool.h>
 #include <stdint.h>
 
 extern DMA_HandleTypeDef hdma_usart2_rx;
@@ -52,7 +56,23 @@ void SysTick_Handler(void) {
 
 void DMA1_Channel6_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_rx); }
 
-void DMA1_Channel7_IRQHandler(void) { HAL_DMA_IRQHandler(&hdma_usart2_tx); }
+extern SemaphoreHandle_t TxDMALock;
+void DMA1_Channel7_IRQHandler(void) {
+
+    uint32_t flag_it   = hdma_usart2_tx.DmaBaseAddress->ISR;
+    uint32_t source_it = hdma_usart2_tx.Instance->CCR;
+    bool dma_transmission_complete = false;
+
+    if ((flag_it & DMA_ISR_TCIF7) && (source_it & DMA_CCR_TCIE)){
+        dma_transmission_complete = true;
+    }
+
+    HAL_DMA_IRQHandler(&hdma_usart2_tx);
+
+    if (dma_transmission_complete) {
+        xSemaphoreGiveFromISR(TxDMALock, NULL); // allow next message to be sent 
+    }
+}
 
 #define MAX_COMMAND_CHAIN_LENGTH 5
 
@@ -106,3 +126,4 @@ void USART2_IRQHandler(void) {
     }
 
 }
+

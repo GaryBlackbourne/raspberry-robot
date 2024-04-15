@@ -48,7 +48,7 @@ int parse_command(const char* command, Command* cmd) {
     // parse directions
     if (cmd->type == Get) {
         if (cmd->target == Sensor) {
-            for (int i = 0; (i < 4) && (command[i + 2] != '-'); i++) {
+            for (int i = 0; (i < 4) && (command[i + 2] != '\0'); i++) {
                 switch (command[i + 2]) {
                 case 'R':
                 case 'r':
@@ -74,8 +74,9 @@ int parse_command(const char* command, Command* cmd) {
                     return -1;
                 }
             }
+            return 0;
         } else { // if ( cmd->target == Velocity)
-            for (int i = 0; (i < 2) && (command[i + 2] != '-'); i++) {
+            for (int i = 0; (i < 2) && (command[i + 2] != '\0'); i++) {
                 switch (command[i + 2]) {
                 case 'R':
                 case 'r':
@@ -91,6 +92,7 @@ int parse_command(const char* command, Command* cmd) {
                     return -1;
                 }
             }
+            return 0;
         }
     } else { // if (cmd->type == Set)
         // if (cmd->target == Velocity) {
@@ -148,6 +150,9 @@ int parse_command(const char* command, Command* cmd) {
 
         cmd->data[i] = (higher_byte << 8) + lower_byte;
     }
+    if(command[first_value_idx + number_of_directions] != '\0') {
+        return -1;
+    }
 
     return 0;
 }
@@ -183,12 +188,26 @@ int chars_to_val(char c_high, char c_low, uint8_t* res) {
     return 0;
 }
 
+extern QueueHandle_t TxQueue;
 int execute_command(Command *cmd) {
+    Answer set_vel_msg = {
+        .size = 9,
+        .string = "set vel\r\n"
+    };
+    Answer get_vel_msg = {
+        .size = 9,
+        .string = "get vel\r\n"
+    };
+    Answer get_sensor_msg = {
+        .size = 9,
+        .string = "get sen\r\n"
+    };
     switch (cmd->type) {
     case Set:
         switch (cmd->target) {
         case Velocity:
             // todo set velocity function calls
+            xQueueSendToBack(TxQueue, &set_vel_msg, portMAX_DELAY);
             break;
         default:
             return -1;
@@ -198,9 +217,11 @@ int execute_command(Command *cmd) {
         switch (cmd->target) {
         case Velocity:
             // todo get velocity and generate answer
+            xQueueSendToBack(TxQueue, &get_vel_msg, portMAX_DELAY);
             break;
         case Sensor:
             // todo get sensor values and  generate answer
+            xQueueSendToBack(TxQueue, &get_sensor_msg, portMAX_DELAY);
             break;
         default:
             return -1;
@@ -213,8 +234,6 @@ int execute_command(Command *cmd) {
 }
 
 char* tx_buffer;
-extern QueueHandle_t TxQueue;
-
 BaseType_t send_response(Response resp) {
     char c = '\0';
     switch (resp) {
@@ -233,8 +252,10 @@ BaseType_t send_response(Response resp) {
     }
     Answer ans = {
         .string[0] = c,
-        .string[1] = '\0',
-        .size = 1,
+        .string[1] = '\r',
+        .string[2] = '\n',
+        .string[3] = '\0',
+        .size = 3,
     };
     return xQueueSendToBack(TxQueue, &ans, portMAX_DELAY);
 }
