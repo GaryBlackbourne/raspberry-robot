@@ -5,6 +5,7 @@
 #include "queue.h"
 #include "portmacro.h"
 #include "robot_tasks.h"
+#include "stm32f1xx.h"
 #include "stm32f1xx_hal_gpio.h"
 #include "task.h"
 
@@ -84,7 +85,6 @@ void USART2_IRQHandler(void) {
 
 	    // clear rx buffer index
 	    rx_string_idx = 0;
-
 	} else {
 	    // buffer new character 
 	    current_message[rx_string_idx] = data;
@@ -92,6 +92,17 @@ void USART2_IRQHandler(void) {
 	    // step index, if command is not finished
 	    rx_string_idx = (rx_string_idx + 1) % RX_BUFFER_LENGHT; // ring to avoid buffer overflow and memory error
 	}
-
+        return;
     }
+
+    if (USART2->SR & USART_SR_TC) {
+        /* huart2.gState = HAL_UART_STATE_READY; */
+        /* USART2->SR &= ~USART_SR_TC; */
+
+        // From HAL Drivers:
+        __HAL_UART_DISABLE_IT(&huart2, UART_IT_TC);
+        huart2.gState = HAL_UART_STATE_READY;
+        return;
+    }
+
 }

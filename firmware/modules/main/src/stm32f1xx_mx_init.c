@@ -194,9 +194,11 @@ void MX_DMA_Init(void) {
 
     __HAL_RCC_DMA1_CLK_ENABLE();
 
-    HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
+    // i dont need dma on the receiving end
+    /* HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 6, 6); */
+    /* HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn); */
+
+    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 6, 6);
     HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
 }
 

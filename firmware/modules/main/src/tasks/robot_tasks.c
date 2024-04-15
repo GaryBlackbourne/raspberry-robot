@@ -30,17 +30,17 @@ BaseType_t xInitRobotTasks(TaskHandle_t* TaskList) {
 	return ret;
     }
 
-    /* ret = xTaskCreate( */
-    /* 	vTaskTxProcessor, */
-    /* 	"TxProcessor", */
-    /* 	2048, */
-    /* 	(void*)NULL, */
-    /* 	tskIDLE_PRIORITY + 2, */
-    /* 	&TaskList[TaskIdx_TxProcessor] */
-    /* 	); */
-    /* if (ret != pdTRUE) { */
-    /* 	return ret; */
-    /* } */
+    ret = xTaskCreate(
+	vTaskTxProcessor,
+	"TxProcessor",
+	2048,
+	(void*)NULL,
+	tskIDLE_PRIORITY + 2,
+	&TaskList[TaskIdx_TxProcessor]
+	);
+    if (ret != pdTRUE) {
+	return ret;
+    }
 
     return pdTRUE;
 }
