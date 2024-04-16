@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Edit this script with your script names for openocd
+
+INTERFACE="/usr/share/openocd/scripts/interface/stlink-v2.cfg"
+TARGET="$(dirname "$0")/stm32f1x.cfg"
+LOG="$(dirname "$0")/openocd_stdout.log"
+
+openocd -f "$INTERFACE" -f "$TARGET" 0>"$LOG" 2>/dev/null &
+
+ps | grep "openocd" | awk '!/start/' | awk '{print $1}
+
