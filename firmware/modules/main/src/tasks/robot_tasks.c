@@ -4,8 +4,8 @@
 
 #include "FreeRTOS.h"
 #include "portmacro.h"
-#include "task.h"
 #include "robot_tasks.h"
+#include "task.h"
 
 /**
    4 Task:
@@ -16,33 +16,41 @@
  */
 TaskHandle_t RxProcessorTaskHandle;
 TaskHandle_t TxProcessorTaskHandle;
+TaskHandle_t MotorControlTaskHandle;
 
 BaseType_t xInitRobotTasks() {
-    BaseType_t ret = pdTRUE;
-    ret = xTaskCreate(
-	vTaskRxProcessor,
-	"RxProcessor",
-	configMINIMAL_STACK_SIZE + 100,
-	(void*)NULL,
-	tskIDLE_PRIORITY + 2,
-        &RxProcessorTaskHandle
-	              );
-    if (ret != pdTRUE) {
-	return ret;
-    }
+  BaseType_t ret = pdTRUE;
+  ret = xTaskCreate(vTaskRxProcessor,
+                    "RxProcessor",
+                    configMINIMAL_STACK_SIZE + 100,
+                    (void *)NULL,
+                    tskIDLE_PRIORITY + 2,
+                    &RxProcessorTaskHandle
+                    );
+  if (ret != pdTRUE) {
+    return ret;
+  }
 
-    ret = xTaskCreate(
-	vTaskTxProcessor,
-	"TxProcessor",
-	configMINIMAL_STACK_SIZE + 100,
-	(void*)NULL,
-	tskIDLE_PRIORITY + 2,
-        &TxProcessorTaskHandle
-	              );
-    if (ret != pdTRUE) {
-	return ret;
-    }
+  ret = xTaskCreate(vTaskTxProcessor,
+                    "TxProcessor",
+                    configMINIMAL_STACK_SIZE + 100,
+                    (void *)NULL,
+                    tskIDLE_PRIORITY + 2,
+                    &TxProcessorTaskHandle
+                    );
+  if (ret != pdTRUE) {
+    return ret;
+  }
 
-    return pdTRUE;
+  ret = xTaskCreate(vTaskMotorControl,
+                    "MotorControl",
+                    configMINIMAL_STACK_SIZE + 100,
+                    (void *)NULL,
+                    tskIDLE_PRIORITY + 3,
+                    &MotorControlTaskHandle
+                    );
+  if (ret != pdTRUE) {
+    return ret;
+  }
+  return pdTRUE;
 }
-

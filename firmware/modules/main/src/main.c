@@ -32,7 +32,6 @@ int main(void) {
 
     /* Initialize robot tasks list */
 
-    /*
     BaseType_t ret = xInitRobotTasks();
     if (ret != pdPASS) {
         if (ret == errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY){
@@ -40,24 +39,13 @@ int main(void) {
         }
         while (1) {}
     }
-    */
 
     /* Start kernel */
-    /* vTaskStartScheduler(); */
+    vTaskStartScheduler();
 
     
     /* const char* data = "data\r\n"; */
     
-    // end of main protection
-    HAL_TIM_PWM_Start(&htim1, SERVO_RIGHT_FORWARD_CHANNEL);
-    HAL_TIM_PWM_Start(&htim1, SERVO_RIGHT_REVERSE_CHANNEL);
-    HAL_TIM_PWM_Start(&htim1, SERVO_LEFT_FORWARD_CHANNEL);
-    HAL_TIM_PWM_Start(&htim1, SERVO_LEFT_REVERSE_CHANNEL);
-
-    htim1.Instance->CCR1 = (1 << 15);
-    htim1.Instance->CCR2 = 0;
-    htim1.Instance->CCR3 = (1 << 15);
-    htim1.Instance->CCR4 = 0;
 
     while (1) {
         for (int i = 0; i < 1000000; i++) {}

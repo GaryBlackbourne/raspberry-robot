@@ -43,7 +43,6 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if (htim_encoder->Instance == TIM2) {
         __HAL_RCC_TIM2_CLK_ENABLE();
-
         __HAL_RCC_GPIOA_CLK_ENABLE();
         GPIO_InitStruct.Pin = ENCODER_LEFT_A_Pin | ENCODER_LEFT_B_Pin;
         GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -51,7 +50,6 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     } else if (htim_encoder->Instance == TIM3) {
         __HAL_RCC_TIM3_CLK_ENABLE();
-
         __HAL_RCC_GPIOA_CLK_ENABLE();
         GPIO_InitStruct.Pin = ENCODER_RIGHT_A_Pin | ENCODER_RIGHT_B_Pin;
         GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

@@ -23,5 +23,6 @@ BaseType_t xInitRobotTasks();
 /* Task for serial communication */
 void vTaskTxProcessor(void *vp);
 void vTaskRxProcessor(void *vp);
+void vTaskMotorControl(void *vp);
 
 #endif
