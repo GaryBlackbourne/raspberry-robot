@@ -24,7 +24,7 @@ BaseType_t xInitRobotTasks() {
                     "RxProcessor",
                     configMINIMAL_STACK_SIZE + 100,
                     (void *)NULL,
-                    tskIDLE_PRIORITY + 2,
+                    tskIDLE_PRIORITY + 1,
                     &RxProcessorTaskHandle
                     );
   if (ret != pdTRUE) {

@@ -11,6 +11,10 @@
 #define TX_QUEUE_LENGTH 5
 #define TX_BUFFER_LENGTH 17   /* based on the longest possible answer: aaaabbbbccccdddd */ 
 
+/* #define tskRX_PROCESSOR_PRIORITY tskIDLE_PRIORITY + 1 */
+/* #define tskTX_PROCESSOR_PRIORITY tskIDLE_PRIORITY + 2 */
+/* #define tskMOTOR_CONTROL_PRIORITY tskIDLE_PRIORITY + 3 */
+
 /* Index type to address TaskList array for the appropriate task handle */
 enum RobotTaskIndex {
     TaskIdx_RxProcessor = 0,

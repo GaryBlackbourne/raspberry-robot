@@ -39,10 +39,10 @@ int parse_command(const char* command, Command* cmd) {
     }
 
     // clear directions
-    cmd->directions[0] = None;
-    cmd->directions[1] = None;
-    cmd->directions[2] = None;
-    cmd->directions[3] = None;
+    cmd->directions[0] = CmdDirectionNone;
+    cmd->directions[1] = CmdDirectionNone;
+    cmd->directions[2] = CmdDirectionNone;
+    cmd->directions[3] = CmdDirectionNone;
 
     uint8_t number_of_directions = 0;
     // parse directions
@@ -52,22 +52,22 @@ int parse_command(const char* command, Command* cmd) {
                 switch (command[i + 2]) {
                 case 'R':
                 case 'r':
-                    cmd->directions[i] = Right;
+                    cmd->directions[i] = CmdDirectionRight;
                     number_of_directions++;
                     break;
                 case 'L':
                 case 'l':
-                    cmd->directions[i] = Left;
+                    cmd->directions[i] = CmdDirectionLeft;
                     number_of_directions++;
                     break;
                 case 'F':
                 case 'f':
-                    cmd->directions[i] = Forward;
+                    cmd->directions[i] = CmdDirectionForward;
                     number_of_directions++;
                     break;
                 case 'B':
                 case 'b':
-                    cmd->directions[i] = Backward;
+                    cmd->directions[i] = CmdDirectionBackward;
                     number_of_directions++;
                     break;
                 default:
@@ -80,12 +80,12 @@ int parse_command(const char* command, Command* cmd) {
                 switch (command[i + 2]) {
                 case 'R':
                 case 'r':
-                    cmd->directions[i] = Right;
+                    cmd->directions[i] = CmdDirectionRight;
                     number_of_directions++;
                     break;
                 case 'L':
                 case 'l':
-                    cmd->directions[i] = Left;
+                    cmd->directions[i] = CmdDirectionLeft;
                     number_of_directions++;
                     break;
                 default:
@@ -100,12 +100,12 @@ int parse_command(const char* command, Command* cmd) {
             switch (command[i + 2]) {
             case 'R':
             case 'r':
-                cmd->directions[i] = Right;
+                cmd->directions[i] = CmdDirectionRight;
                 number_of_directions++;
                 break;
             case 'L':
             case 'l':
-                cmd->directions[i] = Left;
+                cmd->directions[i] = CmdDirectionLeft;
                 number_of_directions++;
                 break;
             default:

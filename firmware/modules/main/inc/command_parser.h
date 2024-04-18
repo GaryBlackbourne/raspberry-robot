@@ -15,18 +15,18 @@ typedef enum CommandTarget {
     Sensor = 2,
 } CommandTarget;
 
-typedef enum Direction {
-    None = 0,
-    Forward = 1,
-    Backward = 2,
-    Right = 3,
-    Left = 4,
-} Direction;
+typedef enum CommandDirection {
+    CmdDirectionNone = 0,
+    CmdDirectionForward = 1,
+    CmdDirectionBackward = 2,
+    CmdDirectionRight = 3,
+    CmdDirectionLeft = 4,
+} CommandDirection;
 
 typedef struct Command {
     CommandType type;
     CommandTarget target;
-    Direction directions[4];
+    CommandDirection directions[4];
     uint16_t data[4];
 } Command;
 
