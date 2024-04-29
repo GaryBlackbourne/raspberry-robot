@@ -1,8 +1,8 @@
 #include <stdint.h>
 
+#include "projdefs.h"
 #include "FreeRTOS.h"
 #include "portmacro.h"
-#include "projdefs.h"
 #include "queue.h"
 #include "semphr.h"
 
@@ -15,6 +15,7 @@
 extern UART_HandleTypeDef huart2;
 extern QueueHandle_t TxQueue;
 extern SemaphoreHandle_t TxDMALock;
+extern SemaphoreHandle_t TxQueueRdy;
 
 void vTaskTxProcessor(void* vp) {
     (void) vp;
@@ -24,6 +25,9 @@ void vTaskTxProcessor(void* vp) {
     TxDMALock = xSemaphoreCreateBinary();
     if (xSemaphoreGive(TxDMALock) != pdTRUE) {
         while (1) {} // semaphore error
+    }
+    if (xSemaphoreGive(TxQueueRdy) != pdTRUE) {
+        while (1) {}
     }
 
     Answer tx_Answer;

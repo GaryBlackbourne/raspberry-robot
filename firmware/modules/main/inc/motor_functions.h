@@ -21,4 +21,6 @@ void set_motor_pwm(Motors motors, MotorDirection dir, uint16_t pwm16);
 
 uint16_t duty_cycle(uint8_t duty_cycle);
 
+float calculate_speed(int16_t cnt);
+
 #endif

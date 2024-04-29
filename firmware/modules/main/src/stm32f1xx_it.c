@@ -3,6 +3,7 @@
 #include "FreeRTOS.h"
 #include "projdefs.h"
 #include "queue.h"
+#include "robot_globals.h"
 #include "task.h"
 #include "portmacro.h"
 #include "semphr.h"
@@ -16,6 +17,7 @@
 #include "stm32f103xb.h"
 #include "stm32f1xx_hal_def.h"
 #include "stm32f1xx_hal_uart.h"
+#include "stm32f1xx_hal_tim.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -127,3 +129,20 @@ void USART2_IRQHandler(void) {
 
 }
 
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
+extern RobotInternals robot;
+void TIM4_IRQHandler(void)
+{
+    // clear interrupt bit
+    htim4.Instance->SR &= ~TIM_SR_UIF;
+
+    // get left counter values
+    robot.encoder.left_previous = robot.encoder.left_current;
+    robot.encoder.left_current = htim2.Instance->CNT;
+
+    // get right counter values
+    robot.encoder.right_previous = robot.encoder.right_current;
+    robot.encoder.right_current = htim3.Instance->CNT;
+}

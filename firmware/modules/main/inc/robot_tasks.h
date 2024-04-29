@@ -2,14 +2,15 @@
 #define _ROBOT_TASKS_H
 
 #include "FreeRTOS.h"
-#include "portmacro.h"
 #include "task.h"
 
 #define RX_QUEUE_LENGTH 5
 #define RX_BUFFER_LENGHT 14   /* based on the longest possible received command: svrl-aaaabbbb */ 
 
 #define TX_QUEUE_LENGTH 5
-#define TX_BUFFER_LENGTH 17   /* based on the longest possible answer: aaaabbbbccccdddd */ 
+#define TX_BUFFER_LENGTH 17   /* based on the longest possible answer: aaaabbbbccccdddd */
+
+#define MOTOR_CONTROL_TASK_DELAY_MS 10
 
 /* #define tskRX_PROCESSOR_PRIORITY tskIDLE_PRIORITY + 1 */
 /* #define tskTX_PROCESSOR_PRIORITY tskIDLE_PRIORITY + 2 */
