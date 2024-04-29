@@ -2,7 +2,6 @@
 #define _MAIN_COMMAND_PARSER_H
 
 #include <stdint.h>
-#include "portmacro.h"
 #include "robot_tasks.h"
 
 typedef enum CommandType {
@@ -49,5 +48,7 @@ int parse_command(const char* command, Command* cmd);
 int execute_command(Command* cmd);
 
 BaseType_t send_response(Response resp);
+
+int byte_to_char (uint8_t byte, char* res);
 
 #endif
