@@ -1,3 +1,4 @@
+#include "main.h"
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "projdefs.h"
@@ -8,7 +9,6 @@
 #include "stm32f1xx_hal_uart.h"
 #include "stm32f1xx_mx_init.h"
 #include <stdint.h>
-#include "main.h"
 
 extern I2C_HandleTypeDef hi2c1;
 extern TIM_HandleTypeDef htim1;
@@ -28,13 +28,14 @@ int main(void) {
     MX_TIM1_Init();
     MX_TIM2_Init();
     MX_TIM3_Init();
+    MX_TIM4_Init();
     MX_USART2_UART_Init();
 
     /* Initialize robot tasks list */
 
     BaseType_t ret = xInitRobotTasks();
     if (ret != pdPASS) {
-        if (ret == errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY){
+        if (ret == errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY) {
             while (1) {}
         }
         while (1) {}
@@ -43,11 +44,7 @@ int main(void) {
     /* Start kernel */
     vTaskStartScheduler();
 
-    
     /* const char* data = "data\r\n"; */
-    
 
-    while (1) {
-        for (int i = 0; i < 1000000; i++) {}
-    }
+    while (1) {}
 }

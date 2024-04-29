@@ -1,5 +1,5 @@
 #include "FreeRTOS.h"
-#include "Legacy/stm32_hal_legacy.h"
+#include "semphr.h"
 #include "portmacro.h"
 #include "queue.h"
 #include "stdbool.h"
@@ -14,6 +14,8 @@
 extern UART_HandleTypeDef huart2;
 extern QueueHandle_t RxQueue;
 
+extern SemaphoreHandle_t TxQueueRdy;
+
 void vTaskRxProcessor(void* vp) {
     (void)vp;
 
@@ -25,6 +27,10 @@ void vTaskRxProcessor(void* vp) {
 
     // struct for current command
     Command cmd;
+
+    // wait for tx semaphore before running
+    xSemaphoreTake(TxQueueRdy, portMAX_DELAY);
+    xSemaphoreGive(TxQueueRdy);
 
     // enable usart
     __HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
@@ -50,6 +56,7 @@ void vTaskRxProcessor(void* vp) {
             send_response(Error);
             continue;
         }
+        
 
         // send 'done' character [d]
         send_response(Done);

@@ -13,10 +13,19 @@ typedef struct RobotInternals {
     /* 	uint32_t left; */
     /* } distance; */
 
-    /* The actual speed which is measured by encoders */
+    /* Encoder data struct */
     struct {
-	uint32_t right;
-	uint32_t left;
+        int16_t right_current;
+        int16_t right_previous;
+        
+        int16_t left_current;
+        int16_t left_previous;
+    } encoder;
+    
+    /* The actual measured speed */
+    struct {
+	int32_t right;
+	int32_t left;
     } actual_speed;
 
     /* Target speed which is to be approximated by motor control */
