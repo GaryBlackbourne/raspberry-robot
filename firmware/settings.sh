@@ -38,6 +38,7 @@ MODULES=(
     "FreeRTOS"
     "hal"
     "main"
+    "vl53l1"
 )
 
 # general compiler options
