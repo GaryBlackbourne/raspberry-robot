@@ -18,6 +18,7 @@
 TaskHandle_t RxProcessorTaskHandle;
 TaskHandle_t TxProcessorTaskHandle;
 TaskHandle_t MotorControlTaskHandle;
+TaskHandle_t SensorReaderTaskHandle;
 
 extern SemaphoreHandle_t TxQueueRdy;
 
@@ -57,5 +58,17 @@ BaseType_t xInitRobotTasks() {
     if (ret != pdTRUE) {
         return ret;
     }
+    
+    ret = xTaskCreate(vTaskSensorReader,
+                      "SensorReader",
+                      configMINIMAL_STACK_SIZE + 100,
+                      (void*)NULL,
+                      tskIDLE_PRIORITY + 3,
+                      &SensorReaderTaskHandle
+                      );
+    if (ret != pdTRUE) {
+        return ret;
+    }
+
     return pdTRUE;
 }

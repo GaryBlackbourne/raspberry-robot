@@ -15,22 +15,24 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c) {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if (hi2c->Instance == I2C1) {
         __HAL_RCC_GPIOB_CLK_ENABLE();
-        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+        GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
         GPIO_InitStruct.Pull = GPIO_PULLUP;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-        HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         /* Peripheral clock enable */
+        __HAL_AFIO_REMAP_I2C1_ENABLE();
         __HAL_RCC_I2C1_CLK_ENABLE();
+
+        HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
     }
 }
 
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c) {
     if (hi2c->Instance == I2C1) {
         __HAL_RCC_I2C1_CLK_DISABLE();
-        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
-        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_7);
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_8);
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_9);
     }
 }
 

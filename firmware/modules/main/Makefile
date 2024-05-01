@@ -8,6 +8,8 @@ GCC_FLAGS += -Iinc/irq
 GCC_FLAGS += -Iinc/bsp
 GCC_FLAGS += -I../mcu/inc
 GCC_FLAGS += -I../hal/inc
+GCC_FLAGS += -I../vl53l1/core
+GCC_FLAGS += -I../vl53l1/platform
 
 SOURCES = $(wildcard src/*.c)
 SOURCES += $(wildcard src/*/*.c)

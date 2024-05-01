@@ -29,5 +29,6 @@ BaseType_t xInitRobotTasks();
 void vTaskTxProcessor(void *vp);
 void vTaskRxProcessor(void *vp);
 void vTaskMotorControl(void *vp);
+void vTaskSensorReader(void *vp);
 
 #endif

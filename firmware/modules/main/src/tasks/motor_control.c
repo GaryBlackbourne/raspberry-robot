@@ -31,6 +31,8 @@ volatile uint16_t counter_value_right = 0;
 void vTaskMotorControl(void* vp) {
     (void)vp;
 
+    vTaskSuspend(NULL);
+    
     HAL_TIM_Base_Start_IT(&htim4);
 
     // Start pwm timers and initialze duty cycle to zero
