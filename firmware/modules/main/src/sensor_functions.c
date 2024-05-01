@@ -6,20 +6,33 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_gpio.h"
 #include "task.h"
+#include "vl53l1_platform.h"
 
-static int initialize_sensor_address(uint16_t basedevice, uint16_t addr) {
+static int initialize_sensor(uint16_t basedevice, uint16_t addr) {
+
     uint8_t sensor_state = 0;
     while (sensor_state == 0) {
         VL53L1X_BootState(basedevice, &sensor_state);
         vTaskDelay(2 / portTICK_PERIOD_MS);
     }
+
+    // init sensor to default value
+    if (VL53L1X_SensorInit(basedevice) != 0) {
+        return -1;
+    }
     if (VL53L1X_SetI2CAddress(basedevice, addr) != 0) {
         return -1;
     }
+
+    uint8_t data = 0;
+    VL53L1X_ERROR status = 0;
+    status = VL53L1_ReadMulti(addr, 0x10f, &data, 1);
+    status = VL53L1_ReadMulti(addr, 0x110, &data, 1);
+
     return 0;
 }
 
-int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
+int initialize_sensors(uint16_t basedevice, uint16_t device_1,
                                 uint16_t device_2, uint16_t device_3,
                                 uint16_t device_4) {
     /* Disable xshut gpio. If xshut is high, the sensor can work */
@@ -31,61 +44,26 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
     /* Set different i2c address for all the sensors */
     /* sensor 1  */
     HAL_GPIO_WritePin(SHUT_1_GPIO_Port, SHUT_1_Pin, GPIO_PIN_SET);
-    if (initialize_sensor_address(basedevice, device_1) != 0) {
-        while (1) {
-        }
+    if (initialize_sensor(basedevice, device_1) != 0) {
+        while (1) {}
     }
-    HAL_GPIO_WritePin(SHUT_1_GPIO_Port, SHUT_1_Pin, GPIO_PIN_RESET);
 
     /* sensor 2 */
     HAL_GPIO_WritePin(SHUT_2_GPIO_Port, SHUT_2_Pin, GPIO_PIN_SET);
-    if (initialize_sensor_address(basedevice, device_2) != 0) {
-        while (1) {
-        }
+    if (initialize_sensor(basedevice, device_2) != 0) {
+        while (1) {}
     }
-    HAL_GPIO_WritePin(SHUT_2_GPIO_Port, SHUT_2_Pin, GPIO_PIN_RESET);
 
     /* sensor 3 */
     HAL_GPIO_WritePin(SHUT_3_GPIO_Port, SHUT_3_Pin, GPIO_PIN_SET);
-    if (initialize_sensor_address(basedevice, device_3) != 0) {
-        while (1) {
-        }
+    if (initialize_sensor(basedevice, device_3) != 0) {
+        while (1) {}
     }
-    HAL_GPIO_WritePin(SHUT_3_GPIO_Port, SHUT_3_Pin, GPIO_PIN_RESET);
 
     /* sensor 4 */
     HAL_GPIO_WritePin(SHUT_4_GPIO_Port, SHUT_4_Pin, GPIO_PIN_SET);
-    if (initialize_sensor_address(basedevice, device_4) != 0) {
-        while (1) {
-        }
-    }
-    HAL_GPIO_WritePin(SHUT_4_GPIO_Port, SHUT_4_Pin, GPIO_PIN_RESET);
-
-    /* Enable all sensors */
-    HAL_GPIO_WritePin(SHUT_1_GPIO_Port, SHUT_1_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(SHUT_2_GPIO_Port, SHUT_2_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(SHUT_3_GPIO_Port, SHUT_3_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(SHUT_4_GPIO_Port, SHUT_4_Pin, GPIO_PIN_SET);
-
-    uint8_t sensor_state = 0;
-    while (sensor_state == 0) {
-        VL53L1X_BootState(device_1, &sensor_state);
-        vTaskDelay(2 / portTICK_PERIOD_MS);
-    }
-    sensor_state = 0;
-    while (sensor_state == 0) {
-        VL53L1X_BootState(device_2, &sensor_state);
-        vTaskDelay(2 / portTICK_PERIOD_MS);
-    }
-    sensor_state = 0;
-    while (sensor_state == 0) {
-        VL53L1X_BootState(device_3, &sensor_state);
-        vTaskDelay(2 / portTICK_PERIOD_MS);
-    }
-    sensor_state = 0;
-    while (sensor_state == 0) {
-        VL53L1X_BootState(device_4, &sensor_state);
-        vTaskDelay(2 / portTICK_PERIOD_MS);
+    if (initialize_sensor(basedevice, device_4) != 0) {
+        while (1) {}
     }
 
     return 0;
@@ -93,10 +71,6 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
 
 int start_sensor(uint16_t device) {
 
-    // init sensor to default value
-    if (VL53L1X_SensorInit(device) != 0) {
-        return -1;
-    }
     if (VL53L1X_SetDistanceMode(device, 2) != 0) {
         return -1;
     } /* 1: short -- 2: long*/
@@ -114,10 +88,11 @@ int start_sensor(uint16_t device) {
     return 0;
 }
 
-int poll_sensors(uint8_t *rdy, uint16_t device1, uint16_t device2, uint16_t device3, uint16_t device4) {
+int poll_sensors(uint8_t* rdy, uint16_t device1, uint16_t device2,
+                 uint16_t device3, uint16_t device4) {
     *rdy = 0;
     uint8_t sensor_rdy;
-    while(rdy == 0) {
+    while (*rdy == 0) {
         if (VL53L1X_CheckForDataReady(device1, &sensor_rdy) != 0) {
             return -1;
         }

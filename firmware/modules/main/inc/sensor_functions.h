@@ -6,7 +6,7 @@
 /*
   Sets the  given adresses to all the sensors, and waits for the bootup stage
  */
-int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1, uint16_t device_2, uint16_t device_3, uint16_t device_4);
+int initialize_sensors(uint16_t basedevice, uint16_t device_1, uint16_t device_2, uint16_t device_3, uint16_t device_4);
 
 /*
   Start measurement with all sensors. After this call, sensors can be polled.
