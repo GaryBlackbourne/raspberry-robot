@@ -31,7 +31,7 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
     /* Set different i2c address for all the sensors */
     /* sensor 1  */
     HAL_GPIO_WritePin(SHUT_1_GPIO_Port, SHUT_1_Pin, GPIO_PIN_SET);
-    if (initialize_sensor(basedevice, device_1) != 0) {
+    if (initialize_sensor_address(basedevice, device_1) != 0) {
         while (1) {
         }
     }
@@ -39,7 +39,7 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
 
     /* sensor 2 */
     HAL_GPIO_WritePin(SHUT_2_GPIO_Port, SHUT_2_Pin, GPIO_PIN_SET);
-    if (initialize_sensor(basedevice, device_2) != 0) {
+    if (initialize_sensor_address(basedevice, device_2) != 0) {
         while (1) {
         }
     }
@@ -47,7 +47,7 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
 
     /* sensor 3 */
     HAL_GPIO_WritePin(SHUT_3_GPIO_Port, SHUT_3_Pin, GPIO_PIN_SET);
-    if (initialize_sensor(basedevice, device_3) != 0) {
+    if (initialize_sensor_address(basedevice, device_3) != 0) {
         while (1) {
         }
     }
@@ -55,7 +55,7 @@ int initialize_sensor_addresses(uint16_t basedevice, uint16_t device_1,
 
     /* sensor 4 */
     HAL_GPIO_WritePin(SHUT_4_GPIO_Port, SHUT_4_Pin, GPIO_PIN_SET);
-    if (initialize_sensor(basedevice, device_4) != 0) {
+    if (initialize_sensor_address(basedevice, device_4) != 0) {
         while (1) {
         }
     }
