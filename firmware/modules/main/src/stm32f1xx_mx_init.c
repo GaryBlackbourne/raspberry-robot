@@ -1,6 +1,7 @@
 #include "stm32f1xx_mx_init.h"
 #include "main.h"
 #include "stm32f103xb.h"
+#include "stm32f1xx_hal_gpio.h"
 #include "stm32f1xx_hal_tim.h"
 
 void SystemClock_Config(void) {
@@ -250,7 +251,7 @@ void MX_GPIO_Init(void) {
 
     GPIO_InitStruct.Pin = SHUT_1_Pin | SHUT_2_Pin | SHUT_3_Pin | SHUT_4_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 }

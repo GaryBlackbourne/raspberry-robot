@@ -36,6 +36,7 @@
 
 #include "vl53l1_platform.h"
 #include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_def.h"
 #include "stm32f1xx_hal_i2c.h"
 #include "vl53l1_error_codes.h"
 #include "vl53l1_types.h"
@@ -59,7 +60,7 @@ int _I2CWrite(uint16_t dev, uint8_t* pdata, uint32_t count) {
     int status;
     int i2c_time_out = I2C_TIME_OUT_BASE + count * I2C_TIME_OUT_BYTE;
 
-    status = HAL_I2C_Master_Transmit(&hi2c1, dev, pdata, count, i2c_time_out);
+    status = HAL_I2C_Master_Transmit(&hi2c1, dev, pdata, count, HAL_MAX_DELAY);
     if (status) {
         // VL6180x_ErrLog("I2C error 0x%x %d len", dev->I2cAddr, len);
         // XNUCLEO6180XA1_I2C1_Init(&hi2c1);
@@ -72,7 +73,7 @@ int _I2CRead(uint16_t dev, uint8_t* pdata, uint32_t count) {
     int i2c_time_out = I2C_TIME_OUT_BASE + count * I2C_TIME_OUT_BYTE;
 
     status
-        = HAL_I2C_Master_Receive(&hi2c1, dev | 1, pdata, count, i2c_time_out);
+        = HAL_I2C_Master_Receive(&hi2c1, dev | 1, pdata, count, HAL_MAX_DELAY);
     if (status) {
         // VL6180x_ErrLog("I2C error 0x%x %d len", dev->I2cAddr, len);
         // XNUCLEO6180XA1_I2C1_Init(&hi2c1);
