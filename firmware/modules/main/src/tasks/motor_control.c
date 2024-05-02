@@ -1,19 +1,19 @@
 #include "FreeRTOS.h"
-#include "semphr.h"
 #include "command_parser.h"
-#include "queue.h"
 #include "main.h"
 #include "motor_functions.h"
 #include "portmacro.h"
-#include "robot_globals.h"
+#include "queue.h"
+#include "robot_internals.h"
 #include "robot_tasks.h"
+#include "semphr.h"
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_tim.h"
 #include "task.h"
 #include <stdint.h>
 
-#include "motor_parameters.h"
 #include "command_parser.h"
+#include "motor_parameters.h"
 
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
@@ -32,7 +32,7 @@ void vTaskMotorControl(void* vp) {
     (void)vp;
 
     vTaskSuspend(NULL);
-    
+
     HAL_TIM_Base_Start_IT(&htim4);
 
     // Start pwm timers and initialze duty cycle to zero
@@ -53,34 +53,32 @@ void vTaskMotorControl(void* vp) {
     xSemaphoreTake(TxQueueRdy, portMAX_DELAY);
     xSemaphoreGive(TxQueueRdy);
 
-
     // counter difference variables, for speed calculation
-    /* int16_t cnt_diff_left = 0; */
+    int16_t cnt_diff_left  = 0;
     int16_t cnt_diff_right = 0;
 
-    set_motor_pwm(MotorRight, MotorDirectionForward, (655)*25);
+    set_motor_pwm(MotorRight, MotorDirectionForward, (655) * 25);
     while (1) {
 
         // read cnt
         taskENTER_CRITICAL();
-        /* cnt_diff_left = robot.encoder.left_current -
-         * robot.encoder.left_previous; */
-        cnt_diff_right =
-            robot.encoder.right_current -
-            robot.encoder.right_previous;
+        cnt_diff_left
+            = robot.encoder.left_current - robot.encoder.left_previous;
+        cnt_diff_right
+            = robot.encoder.right_current - robot.encoder.right_previous;
         taskEXIT_CRITICAL();
 
         Answer ans = {
             .string[2] = '\r',
             .string[3] = '\n',
             .string[4] = '\0',
-            .size = 4,
+            .size      = 4,
         };
         byte_to_char(cnt_diff_right, ans.string);
         xQueueSendToBack(TxQueue, &ans, portMAX_DELAY);
-        
+
         // calculate speed
-        /* float speed_left = calculate_speed (cnt_diff_left); */
+        float speed_left  = calculate_speed(cnt_diff_left);
         float speed_right = calculate_speed(cnt_diff_right);
 
         // send measurement string

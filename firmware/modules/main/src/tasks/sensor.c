@@ -4,7 +4,7 @@
 #include "main.h"
 #include "portmacro.h"
 #include "queue.h"
-#include "robot_globals.h"
+#include "robot_internals.h"
 #include "robot_tasks.h"
 #include "semphr.h"
 #include "sensor_functions.h"
