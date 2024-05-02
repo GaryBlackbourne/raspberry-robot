@@ -3,7 +3,7 @@
  */
 #include "FreeRTOS.h"
 #include "queue.h"
-#include "robot_globals.h"
+#include "robot_internals.h"
 #include "semphr.h"
 
 #include "stm32f1xx_hal.h"
