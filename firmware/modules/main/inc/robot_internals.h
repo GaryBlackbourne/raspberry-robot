@@ -1,17 +1,17 @@
-#ifndef _ROBOT_GLOBALS_H
-#define _ROBOT_GLOBALS_H
+#ifndef _ROBOT_INTERNALS_H
+#define _ROBOT_INTERNALS_H
 
 /* Struct containing the robot internal parameters */
 #include <stdint.h>
 typedef struct RobotInternals {
 
-    /* /\* values of the ranging sensor: *\/ */
-    /* struct { */
-    /* 	uint32_t forward; */
-    /* 	uint32_t right; */
-    /* 	uint32_t backward; */
-    /* 	uint32_t left; */
-    /* } distance; */
+    /* values of the ranging sensor: */
+    struct {
+	uint16_t forward;
+	uint16_t right;
+	uint16_t backward;
+	uint16_t left;
+    } distance;
 
     /* Encoder data struct */
     struct {
