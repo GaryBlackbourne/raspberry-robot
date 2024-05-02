@@ -3,6 +3,9 @@
 
 /* Struct containing the robot internal parameters */
 #include <stdint.h>
+#include "FreeRTOS.h"
+#include "semphr.h"
+
 typedef struct RobotInternals {
 
     /* values of the ranging sensor: */
