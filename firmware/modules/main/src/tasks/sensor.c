@@ -99,10 +99,12 @@ void vTaskSensorReader(void* vp) {
             VL53L1X_ClearInterrupt(device_4);
         }
 
+        xSemaphoreTake(robot.distance.lock, portMAX_DELAY);
         robot.distance.forward  = distance_1;
         robot.distance.right    = distance_2;
         robot.distance.backward = distance_3;
         robot.distance.left     = distance_4;
+        xSemaphoreGive(robot.distance.lock);
 
         vTaskDelay(500 / portTICK_PERIOD_MS);
     }

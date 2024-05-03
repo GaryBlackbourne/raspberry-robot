@@ -3,7 +3,7 @@
 #include "FreeRTOS.h"
 #include "projdefs.h"
 #include "queue.h"
-#include "robot_globals.h"
+#include "robot_internals.h"
 #include "task.h"
 #include "portmacro.h"
 #include "semphr.h"

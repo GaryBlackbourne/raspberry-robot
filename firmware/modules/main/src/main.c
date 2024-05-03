@@ -2,6 +2,7 @@
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "projdefs.h"
+#include "robot_internals.h"
 #include "robot_tasks.h"
 #include "stm32f103xb.h"
 #include "stm32f1xx_hal.h"
@@ -17,9 +18,11 @@ extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
+extern RobotInternals robot;
 
 int main(void) {
 
+    /* Initialize hardware */
     HAL_Init();
     SystemClock_Config();
     MX_GPIO_Init();
@@ -31,8 +34,12 @@ int main(void) {
     MX_TIM4_Init();
     MX_USART2_UART_Init();
 
-    /* Initialize robot tasks list */
+    /* Initialize mutexes */
+    robot.distance.lock     = xSemaphoreCreateMutex();
+    robot.actual_speed.lock = xSemaphoreCreateMutex();
+    robot.target_speed.lock = xSemaphoreCreateMutex();
 
+    /* Initialize robot tasks list */
     BaseType_t ret = xInitRobotTasks();
     if (ret != pdPASS) {
         if (ret == errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY) {
@@ -43,8 +50,6 @@ int main(void) {
 
     /* Start kernel */
     vTaskStartScheduler();
-
-    /* const char* data = "data\r\n"; */
 
     while (1) {}
 }
