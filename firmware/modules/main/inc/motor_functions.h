@@ -23,4 +23,8 @@ uint16_t duty_cycle(uint8_t duty_cycle);
 
 float calculate_speed(int16_t cnt);
 
+uint16_t _abs(int16_t num);
+
+int16_t _round(float num);
+
 #endif

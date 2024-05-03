@@ -23,6 +23,7 @@ void set_motor_speed(Motors motors, int32_t speed) {
     }
 }
 
+
 void set_motor_pwm(Motors motors, MotorDirection dir, uint16_t pwm16){
     if (motors & MotorRight) {
         switch (dir) {
@@ -66,4 +67,16 @@ speed is in m/s unit.
 inline float calculate_speed(int16_t cnt) {
     /*     ( increments / all increments )      * ((pi * dia)       / grear)      * 1000 / 10 */ 
     return (((float)cnt / INCREMENTS_PER_ROUND) * ((PI * DIAMETER)) / GEAR_RATIO) * 20;
+}
+
+uint16_t _abs(int16_t num) {
+    return (num < 0) ? -num : num;
+}
+
+int16_t _round(float num) {
+    if (num > 0) {
+        return (int16_t)(num + 0.5);
+    } else {
+        return (int16_t)(num - 0.5);
+    }
 }
