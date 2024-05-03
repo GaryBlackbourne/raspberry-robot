@@ -1,4 +1,5 @@
 #include "FreeRTOS.h"
+#include "PID.h"
 #include "command_parser.h"
 #include "main.h"
 #include "motor_functions.h"
@@ -31,11 +32,9 @@ volatile uint16_t counter_value_right = 0;
 void vTaskMotorControl(void* vp) {
     (void)vp;
 
-    vTaskSuspend(NULL);
-
     HAL_TIM_Base_Start_IT(&htim4);
 
-    // Start pwm timers and initialze duty cycle to zero
+    // Start pwm timer and initialze duty cycle to zero
     htim1.Instance->CCR1 = 0;
     htim1.Instance->CCR2 = 0;
     htim1.Instance->CCR3 = 0;
@@ -53,14 +52,34 @@ void vTaskMotorControl(void* vp) {
     xSemaphoreTake(TxQueueRdy, portMAX_DELAY);
     xSemaphoreGive(TxQueueRdy);
 
+    // Initialize pid controller
+    PIDController pid_left;
+    PIDController pid_right;
+    PIDController_Init(&pid_left);
+    PIDController_Init(&pid_right);
+
+    // tune pid controller:
+    pid_left.Kp = 0; // proportional
+    pid_left.Ki = 0; // integrator
+    pid_left.Kd = 0; // derivative
+
+    pid_left.limMax    = 0; // output limit
+    pid_left.limMin    = 0;
+    pid_left.limMaxInt = 0; // integrator limit
+    pid_left.limMinInt = 0;
+
+    pid_left.tau = 0;       // derivative filter
+    pid_left.T   = 0;       // discrete period
+
     // counter difference variables, for speed calculation
     int16_t cnt_diff_left  = 0;
     int16_t cnt_diff_right = 0;
 
-    set_motor_pwm(MotorRight, MotorDirectionForward, (655) * 25);
-    while (1) {
+    uint16_t target_speed_right = 0;
+    uint16_t target_speed_left  = 0;
 
-        // read cnt
+    while (1) {
+        // Read encoder values from robot internals struct (set by IRQHandler)
         taskENTER_CRITICAL();
         cnt_diff_left
             = robot.encoder.left_current - robot.encoder.left_previous;
@@ -68,33 +87,41 @@ void vTaskMotorControl(void* vp) {
             = robot.encoder.right_current - robot.encoder.right_previous;
         taskEXIT_CRITICAL();
 
-        Answer ans = {
-            .string[2] = '\r',
-            .string[3] = '\n',
-            .string[4] = '\0',
-            .size      = 4,
-        };
-        byte_to_char(cnt_diff_right, ans.string);
-        xQueueSendToBack(TxQueue, &ans, portMAX_DELAY);
+        // Calculate speed
+        int16_t speed_left  = calculate_speed(cnt_diff_left);
+        int16_t speed_right = calculate_speed(cnt_diff_right);
 
-        // calculate speed
-        float speed_left  = calculate_speed(cnt_diff_left);
-        float speed_right = calculate_speed(cnt_diff_right);
+        // Store speed in globals
+        xSemaphoreTake(robot.actual_speed.lock, portMAX_DELAY);
+        robot.actual_speed.right = speed_right;
+        robot.actual_speed.left  = speed_left;
+        xSemaphoreGive(robot.actual_speed.lock);
 
-        // send measurement string
+        // Read target speed values
+        xSemaphoreTake(robot.target_speed.lock, portMAX_DELAY);
+        target_speed_right = robot.target_speed.right;
+        target_speed_left  = robot.target_speed.left;
+        xSemaphoreGive(robot.target_speed.lock);
 
+        // Execute PID algorithm
+        PIDController_Update(&pid_right, target_speed_right, speed_right);
+        PIDController_Update(&pid_left, target_speed_left, speed_left);
+
+        // Set output
+        MotorDirection dir_left  = (pid_left.out < 0) ? MotorDirectionBackward
+                                                      : MotorDirectionForward;
+        MotorDirection dir_right = (pid_right.out < 0) ? MotorDirectionBackward
+                                                       : MotorDirectionForward;
+
+        // calculate output TODO
+        uint16_t pwm_left  = _round(_abs(pid_left.out));
+        uint16_t pwm_right = _round(_abs(pid_right.out));
+
+        // set motor pwm
+        set_motor_pwm(MotorLeft, dir_left, pwm_left);
+        set_motor_pwm(MotorRight, dir_right, pwm_right);
+
+        // delay task with period time
         vTaskDelay(MOTOR_CONTROL_TASK_DELAY_MS / portTICK_PERIOD_MS);
     }
-
-    /* uint16_t pwm = 0; */
-    /* while (1) { */
-    /*     for (int i = 0; i < 4; i++) { */
-    /*         counter_value_left  = htim2.Instance->CNT; */
-    /*         counter_value_right = htim3.Instance->CNT; */
-    /*         vTaskDelay (250 / portTICK_PERIOD_MS); */
-    /*     } */
-    /*     set_motor_pwm(MotorRight, MotorDirectionForward, pwm); */
-    /*     set_motor_pwm(MotorLeft, MotorDirectionForward, pwm); */
-    /*     pwm += 16383; */
-    /* } */
 }

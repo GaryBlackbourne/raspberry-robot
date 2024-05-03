@@ -14,6 +14,8 @@ typedef struct RobotInternals {
 	uint16_t right;
 	uint16_t backward;
 	uint16_t left;
+
+        SemaphoreHandle_t lock;
     } distance;
 
     /* Encoder data struct */
@@ -25,18 +27,36 @@ typedef struct RobotInternals {
         int16_t left_previous;
     } encoder;
     
-    /* The actual measured speed */
+
     struct {
-	int32_t right;
-	int32_t left;
+	int16_t right;
+	int16_t left;
+        SemaphoreHandle_t lock;
     } actual_speed;
 
     /* Target speed which is to be approximated by motor control */
     struct {
-	uint32_t right;
-	uint32_t left;
+	int16_t right;
+	int16_t left;
+        SemaphoreHandle_t lock;
     } target_speed;
 
 } RobotInternals;
+
+/*
+  Get the actual speed of the robot. The values are given back in the arguments.
+ */
+void get_speed(RobotInternals* robot_internals, int16_t* right, int16_t* left);
+
+/*
+  Set the target speed for the motor controller.
+ */
+void set_speed(RobotInternals* robot_internals, int16_t right, int16_t left);
+
+/*
+  Get the measured distances
+ */
+void get_distance(RobotInternals* robot_internals, uint16_t* forward, uint16_t* right, uint16_t* backward, uint16_t* left);
+
 
 #endif
