@@ -2,6 +2,7 @@
 #define _MAIN_COMMAND_PARSER_H
 
 #include <stdint.h>
+#include "robot_internals.h"
 #include "robot_tasks.h"
 
 typedef enum CommandType {
@@ -50,5 +51,12 @@ int execute_command(Command* cmd);
 BaseType_t send_response(Response resp);
 
 int byte_to_char (uint8_t byte, char* res);
+
+
+void execute_set_velocity(RobotInternals* r, CommandDirection* dirs, uint16_t* data);
+
+void execute_get_velocity(RobotInternals* r, CommandDirection* dirs, Answer* ans);
+
+void execute_get_sensor(RobotInternals* r, CommandDirection* dirs, Answer* ans);
 
 #endif

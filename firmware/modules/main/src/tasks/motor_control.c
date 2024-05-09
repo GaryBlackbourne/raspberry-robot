@@ -52,24 +52,24 @@ void vTaskMotorControl(void* vp) {
     xSemaphoreTake(TxQueueRdy, portMAX_DELAY);
     xSemaphoreGive(TxQueueRdy);
 
-    // Initialize pid controller
-    PIDController pid_left;
-    PIDController pid_right;
-    PIDController_Init(&pid_left);
-    PIDController_Init(&pid_right);
+    /* // Initialize pid controller */
+    /* PIDController pid_left; */
+    /* PIDController pid_right; */
+    /* PIDController_Init(&pid_left); */
+    /* PIDController_Init(&pid_right); */
 
-    // tune pid controller:
-    pid_left.Kp = 0; // proportional
-    pid_left.Ki = 0; // integrator
-    pid_left.Kd = 0; // derivative
+    /* // tune pid controller: */
+    /* pid_left.Kp = 0; // proportional */
+    /* pid_left.Ki = 0; // integrator */
+    /* pid_left.Kd = 0; // derivative */
 
-    pid_left.limMax    = 0; // output limit
-    pid_left.limMin    = 0;
-    pid_left.limMaxInt = 0; // integrator limit
-    pid_left.limMinInt = 0;
+    /* pid_left.limMax    = 0; // output limit */
+    /* pid_left.limMin    = 0; */
+    /* pid_left.limMaxInt = 0; // integrator limit */
+    /* pid_left.limMinInt = 0; */
 
-    pid_left.tau = 0;       // derivative filter
-    pid_left.T   = 0;       // discrete period
+    /* pid_left.tau = 0;       // derivative filter */
+    /* pid_left.T   = 0;       // discrete period */
 
     // counter difference variables, for speed calculation
     int16_t cnt_diff_left  = 0;
@@ -103,19 +103,21 @@ void vTaskMotorControl(void* vp) {
         target_speed_left  = robot.target_speed.left;
         xSemaphoreGive(robot.target_speed.lock);
 
-        // Execute PID algorithm
-        PIDController_Update(&pid_right, target_speed_right, speed_right);
-        PIDController_Update(&pid_left, target_speed_left, speed_left);
+        /* // Execute PID algorithm */
+        /* PIDController_Update(&pid_right, target_speed_right, speed_right); */
+        /* PIDController_Update(&pid_left, target_speed_left, speed_left); */
 
         // Set output
-        MotorDirection dir_left  = (pid_left.out < 0) ? MotorDirectionBackward
+        MotorDirection dir_left  = (target_speed_left < 0) ? MotorDirectionBackward
                                                       : MotorDirectionForward;
-        MotorDirection dir_right = (pid_right.out < 0) ? MotorDirectionBackward
+        MotorDirection dir_right = (target_speed_right < 0) ? MotorDirectionBackward
                                                        : MotorDirectionForward;
 
-        // calculate output TODO
-        uint16_t pwm_left  = _round(_abs(pid_left.out));
-        uint16_t pwm_right = _round(_abs(pid_right.out));
+        // calculate output
+        // int16 speed -> 15 bit speed data
+        // * 2 == << 2 -> 16 bit speed data
+        uint16_t pwm_left  = _round(_abs(target_speed_left)  * 2);
+        uint16_t pwm_right = _round(_abs(target_speed_right) * 2);
 
         // set motor pwm
         set_motor_pwm(MotorLeft, dir_left, pwm_left);
