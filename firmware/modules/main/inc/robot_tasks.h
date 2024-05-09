@@ -5,10 +5,10 @@
 #include "task.h"
 
 #define RX_QUEUE_LENGTH 5
-#define RX_BUFFER_LENGHT 14   /* based on the longest possible received command: svrl-aaaabbbb */ 
+#define RX_BUFFER_LENGHT 17   /* based on the longest possible received command: svrl-aaaabbbb\r\n\0 */ 
 
 #define TX_QUEUE_LENGTH 5
-#define TX_BUFFER_LENGTH 17   /* based on the longest possible answer: aaaabbbbccccdddd */
+#define TX_BUFFER_LENGTH 20   /* based on the longest possible answer: aaaabbbbccccdddd\r\n\0 */
 
 #define MOTOR_CONTROL_TASK_DELAY_MS 10
 

@@ -37,16 +37,10 @@ void vTaskSensorReader(void* vp) {
         while (1) {}
     }
 
-    if (start_sensor(device_1) != 0) {
-        while (1) {}
-    }
-    if (start_sensor(device_2) != 0) {
-        while (1) {}
-    }
-    if (start_sensor(device_3) != 0) {
-        while (1) {}
-    }
-    if (start_sensor(device_4) != 0) {
+    if ((start_sensor(device_1) != 0) ||
+        (start_sensor(device_2) != 0) ||
+        (start_sensor(device_3) != 0) ||
+        (start_sensor(device_4) != 0)) {
         while (1) {}
     }
 

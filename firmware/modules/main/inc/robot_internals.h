@@ -58,5 +58,4 @@ void set_speed(RobotInternals* robot_internals, int16_t right, int16_t left);
  */
 void get_distance(RobotInternals* robot_internals, uint16_t* forward, uint16_t* right, uint16_t* backward, uint16_t* left);
 
-
 #endif

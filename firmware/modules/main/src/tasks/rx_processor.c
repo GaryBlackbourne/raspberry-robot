@@ -1,14 +1,14 @@
 #include "FreeRTOS.h"
-#include "semphr.h"
 #include "portmacro.h"
 #include "queue.h"
+#include "semphr.h"
 #include "stdbool.h"
 
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_uart.h"
 
-#include "robot_tasks.h"
 #include "command_parser.h"
+#include "robot_tasks.h"
 #include <stdint.h>
 
 extern UART_HandleTypeDef huart2;
@@ -23,7 +23,7 @@ void vTaskRxProcessor(void* vp) {
     RxQueue = xQueueCreate(RX_QUEUE_LENGTH, sizeof(char*));
 
     // rx string buffer
-    char *rx_buffer = NULL;
+    char* rx_buffer = NULL;
 
     // struct for current command
     Command cmd;
@@ -37,8 +37,7 @@ void vTaskRxProcessor(void* vp) {
 
     while (1) {
         // wait for message in queue
-        while (xQueueReceive(RxQueue, &rx_buffer, portMAX_DELAY) != pdTRUE) {
-        }
+        while (xQueueReceive(RxQueue, &rx_buffer, portMAX_DELAY) != pdTRUE) {}
 
         // parse command string to command struct
         if (parse_command(rx_buffer, &cmd) != 0) {
@@ -56,11 +55,8 @@ void vTaskRxProcessor(void* vp) {
             send_response(Error);
             continue;
         }
-        
 
         // send 'done' character [d]
         send_response(Done);
     }
 }
-
-
