@@ -373,6 +373,7 @@ void execute_set_velocity(RobotInternals* r, CommandDirection* dirs,
         }
     }
 
+    r->target_speed.timeout = 100;
     xSemaphoreGive(r->target_speed.lock);
 }
 

@@ -75,8 +75,9 @@ void vTaskMotorControl(void* vp) {
     int16_t cnt_diff_left  = 0;
     int16_t cnt_diff_right = 0;
 
-    uint16_t target_speed_right = 0;
-    uint16_t target_speed_left  = 0;
+    uint16_t target_speed_right   = 0;
+    uint16_t target_speed_left    = 0;
+    uint16_t target_speed_timeout = 0;
 
     while (1) {
         // Read encoder values from robot internals struct (set by IRQHandler)
@@ -101,6 +102,7 @@ void vTaskMotorControl(void* vp) {
         xSemaphoreTake(robot.target_speed.lock, portMAX_DELAY);
         target_speed_right = robot.target_speed.right;
         target_speed_left  = robot.target_speed.left;
+        target_speed_timeout = robot.target_speed.timeout;
         xSemaphoreGive(robot.target_speed.lock);
 
         /* // Execute PID algorithm */
@@ -120,8 +122,17 @@ void vTaskMotorControl(void* vp) {
         uint16_t pwm_right = _round(_abs(target_speed_right) * 2);
 
         // set motor pwm
-        set_motor_pwm(MotorLeft, dir_left, pwm_left);
-        set_motor_pwm(MotorRight, dir_right, pwm_right);
+        if (target_speed_timeout != 0) {
+            set_motor_pwm(MotorLeft, dir_left, pwm_left);
+            set_motor_pwm(MotorRight, dir_right, pwm_right);
+
+            xSemaphoreTake(robot.target_speed.lock, portMAX_DELAY);
+            robot.target_speed.timeout --;
+            xSemaphoreGive(robot.target_speed.lock);
+        } else {
+            set_motor_pwm(MotorLeft, dir_left, 0);
+            set_motor_pwm(MotorRight, dir_right, 0);
+        }
 
         // delay task with period time
         vTaskDelay(MOTOR_CONTROL_TASK_DELAY_MS / portTICK_PERIOD_MS);

@@ -39,6 +39,7 @@ typedef struct RobotInternals {
 	int16_t right;
 	int16_t left;
         SemaphoreHandle_t lock;
+        uint16_t timeout; 
     } target_speed;
 
 } RobotInternals;
