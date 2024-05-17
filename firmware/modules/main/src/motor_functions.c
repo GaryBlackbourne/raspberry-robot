@@ -62,11 +62,13 @@ uint16_t duty_cycle(uint8_t duty_cycle) {
 /**
 Speed is measured by the difference of an encoder counter. The difference is
 calculated by IRQhandler which does run at 10ms period (100 Hz). The calculated
-speed is in m/s unit.
+speed is in mm/s unit.
  */
 inline float calculate_speed(int16_t cnt) {
-    /*     ( increments / all increments )      * ((pi * dia)       / grear)      * 1000 / 10 */ 
-    return (((float)cnt / INCREMENTS_PER_ROUND) * ((PI * DIAMETER)) / GEAR_RATIO) * 20;
+    float s = (WHEEL_CIRCUMFERENCE * cnt) / (INCREMENTS_PER_ROUND * GEAR_RATIO); // distance in mm
+    float t = 0.010;                                                             // time between measurements
+    float velocity = s / t;                                                      // speed calculation formula
+    return velocity;
 }
 
 uint16_t _abs(int16_t num) {

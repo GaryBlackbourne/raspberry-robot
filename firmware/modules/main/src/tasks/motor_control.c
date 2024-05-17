@@ -75,8 +75,8 @@ void vTaskMotorControl(void* vp) {
     int16_t cnt_diff_left  = 0;
     int16_t cnt_diff_right = 0;
 
-    uint16_t target_speed_right   = 0;
-    uint16_t target_speed_left    = 0;
+    int16_t target_speed_right   = 0;
+    int16_t target_speed_left    = 0;
     uint16_t target_speed_timeout = 0;
 
     while (1) {
@@ -89,13 +89,13 @@ void vTaskMotorControl(void* vp) {
         taskEXIT_CRITICAL();
 
         // Calculate speed
-        int16_t speed_left  = calculate_speed(cnt_diff_left);
-        int16_t speed_right = calculate_speed(cnt_diff_right);
+        float speed_left  = calculate_speed(cnt_diff_left);
+        float speed_right = calculate_speed(cnt_diff_right);
 
         // Store speed in globals
         xSemaphoreTake(robot.actual_speed.lock, portMAX_DELAY);
-        robot.actual_speed.right = speed_right;
-        robot.actual_speed.left  = speed_left;
+        robot.actual_speed.right = _round(speed_right);
+        robot.actual_speed.left  = _round(speed_left);
         xSemaphoreGive(robot.actual_speed.lock);
 
         // Read target speed values

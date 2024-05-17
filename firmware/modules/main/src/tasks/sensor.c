@@ -26,78 +26,78 @@ void vTaskSensorReader(void* vp) {
 
     uint16_t basedevice = 0x52;
 
-    uint16_t device_1 = 0x62;
-    uint16_t device_2 = 0x64;
-    uint16_t device_3 = 0x66;
-    uint16_t device_4 = 0x68;
+    uint16_t device_front = 0x62;
+    uint16_t device_back = 0x64;
+    uint16_t device_left = 0x66;
+    uint16_t device_right = 0x68;
 
     /* Initialize sensor*/
-    if (initialize_sensors(basedevice, device_1, device_2, device_3, device_4)
+    if (initialize_sensors(basedevice, device_front, device_back, device_left, device_right)
         != 0) {
         while (1) {}
     }
 
-    if ((start_sensor(device_1) != 0) ||
-        (start_sensor(device_2) != 0) ||
-        (start_sensor(device_3) != 0) ||
-        (start_sensor(device_4) != 0)) {
+    if ((start_sensor(device_front) != 0) ||
+        (start_sensor(device_back) != 0) ||
+        (start_sensor(device_left) != 0) ||
+        (start_sensor(device_right) != 0)) {
         while (1) {}
     }
 
     uint8_t RangeStatus;
 
-    uint16_t distance_1 = 0;
-    uint16_t distance_2 = 0;
-    uint16_t distance_3 = 0;
-    uint16_t distance_4 = 0;
+    uint16_t distance_front = 0;
+    uint16_t distance_back = 0;
+    uint16_t distance_left = 0;
+    uint16_t distance_right = 0;
 
     uint8_t rdy_sensors;
     while (1) {
 
         /* poll sensors to get measurement data */
-        if (poll_sensors(&rdy_sensors, device_1, device_2, device_3, device_4)
+        if (poll_sensors(&rdy_sensors, device_front, device_back, device_left, device_right)
             != 0) {
             while (1) {}
         }
 
         if (rdy_sensors & (1 << 0)) {
             /* returns ranging status error. 0 if good. */
-            VL53L1X_GetRangeStatus(device_1, &RangeStatus);
+            VL53L1X_GetRangeStatus(device_front, &RangeStatus);
             /* distance measured in mm */
-            VL53L1X_GetDistance(device_1, &distance_1);
+            VL53L1X_GetDistance(device_front, &distance_front);
             /* clear interrupt has to be called to enable next interrupt*/
-            VL53L1X_ClearInterrupt(device_1);
+            VL53L1X_ClearInterrupt(device_front);
         }
         if (rdy_sensors & (1 << 1)) {
             /* returns ranging status error. 0 if good. */
-            VL53L1X_GetRangeStatus(device_2, &RangeStatus);
+            VL53L1X_GetRangeStatus(device_back, &RangeStatus);
             /* distance measured in mm */
-            VL53L1X_GetDistance(device_2, &distance_2);
+            VL53L1X_GetDistance(device_back, &distance_back);
             /* clear interrupt has to be called to enable next interrupt*/
-            VL53L1X_ClearInterrupt(device_2);
+            VL53L1X_ClearInterrupt(device_back);
         }
         if (rdy_sensors & (1 << 2)) {
             /* returns ranging status error. 0 if good. */
-            VL53L1X_GetRangeStatus(device_3, &RangeStatus);
+            VL53L1X_GetRangeStatus(device_left, &RangeStatus);
             /* distance measured in mm */
-            VL53L1X_GetDistance(device_3, &distance_3);
+            VL53L1X_GetDistance(device_left, &distance_left);
             /* clear interrupt has to be called to enable next interrupt*/
-            VL53L1X_ClearInterrupt(device_3);
+            VL53L1X_ClearInterrupt(device_left);
         }
         if (rdy_sensors & (1 << 3)) {
             /* returns ranging status error. 0 if good. */
-            VL53L1X_GetRangeStatus(device_4, &RangeStatus);
+            VL53L1X_GetRangeStatus(device_right, &RangeStatus);
             /* distance measured in mm */
-            VL53L1X_GetDistance(device_4, &distance_4);
+            VL53L1X_GetDistance(device_right, &distance_right);
             /* clear interrupt has to be called to enable next interrupt*/
-            VL53L1X_ClearInterrupt(device_4);
+            VL53L1X_ClearInterrupt(device_right);
         }
 
         xSemaphoreTake(robot.distance.lock, portMAX_DELAY);
-        robot.distance.forward  = distance_1;
-        robot.distance.right    = distance_2;
-        robot.distance.backward = distance_3;
-        robot.distance.left     = distance_4;
+        robot.distance.forward  = distance_front;
+        robot.distance.right    = distance_right;
+        robot.distance.backward = distance_back;
+        robot.distance.left     = distance_left;
         xSemaphoreGive(robot.distance.lock);
 
         vTaskDelay(500 / portTICK_PERIOD_MS);
